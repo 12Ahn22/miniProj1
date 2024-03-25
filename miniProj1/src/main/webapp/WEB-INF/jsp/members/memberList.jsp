@@ -28,7 +28,7 @@
 			<tbody>
 				<c:forEach var="member" items="${list}">
 					<tr>
-						<td>${member.id}</td>
+						<td><a href="member?action=view&id=${member.id}">${member.id}</a></td>
 						<td>${member.name}</td>
 						<td>${member.gender}</td>
 						<td>${member.phone}</td>
