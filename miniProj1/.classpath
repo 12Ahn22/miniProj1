@@ -19,5 +19,6 @@
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/jackson-annotations-2.16.2.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/jackson-core-2.16.2.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/jackson-databind-2.16.2.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/mariadb-java-client-3.3.3.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
