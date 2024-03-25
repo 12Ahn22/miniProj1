@@ -51,6 +51,10 @@ public class BoardServlet extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/boards/boardView.jsp");
 			rd.forward(request, response);
 		}
+		default -> {
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/notFound.jsp");
+			rd.forward(request, response);
+		}
 		};
 	}
 }
