@@ -9,9 +9,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
 @WebServlet("/member")
 public class MemberServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	MemberController memberController = new MemberController();
        
     public MemberServlet() {
         super();
@@ -34,6 +37,10 @@ public class MemberServlet extends HttpServlet {
 
 		switch (action) {
 		case "list" -> {
+			// 컨트롤러를 호출한다.
+			memberController.list(request);
+			
+			// 포워딩
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/members/memberList.jsp");
 			rd.forward(request, response);
 		}
