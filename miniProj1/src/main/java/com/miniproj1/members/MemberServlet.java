@@ -49,6 +49,10 @@ public class MemberServlet extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/members/memberView.jsp");
 			rd.forward(request, response);
 		}
+		case "loginForm" ->{
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/members/login.jsp");
+			rd.forward(request, response);
+		}
 		default -> {
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/notFound.jsp");
 			rd.forward(request, response);
