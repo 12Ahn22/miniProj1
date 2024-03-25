@@ -39,7 +39,6 @@ public class MemberServlet extends HttpServlet {
 		case "list" -> {
 			// 컨트롤러를 호출한다.
 			memberController.list(request);
-			
 			// 포워딩
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/members/memberList.jsp");
 			rd.forward(request, response);
@@ -53,6 +52,8 @@ public class MemberServlet extends HttpServlet {
 			rd.forward(request, response);
 		}
 		case "view" -> {
+			String id = request.getParameter("id");
+			memberController.view(request, id);
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/members/memberView.jsp");
 			rd.forward(request, response);
 		}

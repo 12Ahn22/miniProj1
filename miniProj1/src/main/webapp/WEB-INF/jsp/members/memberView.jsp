@@ -13,5 +13,18 @@
 	<jsp:include page="../layout/layoutHeader.jsp">
 		<jsp:param name="isLogin" value="false" />
 	</jsp:include>
+	
+	<main>
+		<h1>${member.id}</h1>
+		<div><span>이름:</span><span>${member.name}</span></div>
+		<div><span>성별:</span><span>${member.gender}</span></div>
+		<div><span>전화번호:</span><span>${member.phone}</span></div>
+		<div><span>주소:</span><span>${member.address}</span></div>
+		<div><span>취미:</span>
+			<c:forEach var="hobby" items="${member.hobbies}">
+				<span>${hobby}</span>
+			</c:forEach>
+		</div>
+	</main>
 </body>
 </html>

@@ -13,9 +13,13 @@ public class MemberDAO {
 	private static Connection conn = null;
 	
 	private static PreparedStatement listPs = null;
+	private static PreparedStatement viewPs = null;
+	private static PreparedStatement memberHobbiesPs = null;
 	
 	private static String listSQL = "select id, name, address, phone, gender from tb_members";
-
+	private static String viewSQL = "select id, name, address, phone, gender from tb_members where id = ?";
+	private static String memberHobbiesSQL = "select hobby from tb_member_hobbies tmh join tb_hobbies th on tmh.hobby_id = th.id where member_id = ?";
+	
 	static {
 		try {
 			// 1. 클래스를 로드
@@ -52,6 +56,48 @@ public class MemberDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return list;
+	}
+
+	public MemberVO view(String id) {
+		ResultSet rs = null;
+		MemberVO member = null;
+		try {
+			viewPs = conn.prepareStatement(viewSQL);
+			viewPs.setString(1, id);
+			rs = viewPs.executeQuery();
+			
+			if(rs.next()) {
+				member = new MemberVO(
+						rs.getString("id"),
+						rs.getString("name"),
+						rs.getString("address"),
+						rs.getString("phone"),
+						rs.getString("gender")
+					);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return member;
+	}
+	
+	public List<String> getMemberHobbies(String id) {
+		ResultSet rs = null;
+		List<String> list = new ArrayList<String>();
+		
+		try {
+			memberHobbiesPs = conn.prepareStatement(memberHobbiesSQL);
+			memberHobbiesPs.setString(1, id);
+			rs = memberHobbiesPs.executeQuery();
+			while(rs.next()) {
+				list.add(rs.getString("hobby"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 		return list;
 	}
 }

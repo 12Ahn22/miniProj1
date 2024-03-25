@@ -1,10 +1,11 @@
 package com.miniproj1.members;
 
-import lombok.AllArgsConstructor;
+import java.util.List;
+
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
-@AllArgsConstructor
 public class MemberVO {
 	private String id;
 	private String name;
@@ -12,8 +13,10 @@ public class MemberVO {
 	private String address;
 	private String phone;
 	private Gender gender;
+	@Setter
+	private List<String> hobbies;
 	
-	public MemberVO(String id, String name, String address, String phone, String gender) {
+	public MemberVO(String id, String name, String address, String phone, String gender, String[] hobbies) {
 		this.id = id;
 		this.name = name;
 		this.address = address;
@@ -22,8 +25,17 @@ public class MemberVO {
 		else this.gender = Gender.M;
 	}
 	
+	public MemberVO(String id, String name, String address, String phone, String gender) {
+		this(id, name, address, phone, gender, null);
+	}
+	
 	public static enum Gender {
         F,
         M
     }
+	
+	public String getGender() {
+		if(this.gender.equals(Gender.F)) return "여";
+		return "남";
+	}
 }

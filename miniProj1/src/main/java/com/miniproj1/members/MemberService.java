@@ -10,4 +10,11 @@ public class MemberService {
 		List<MemberVO> list = memberDAO.list();
 		return list;
 	}
+
+	public MemberVO view(String id) {
+		MemberVO memberVO = memberDAO.view(id);
+		List<String> hobbies = memberDAO.getMemberHobbies(id);
+		memberVO.setHobbies(hobbies);
+		return memberVO;
+	}
 }

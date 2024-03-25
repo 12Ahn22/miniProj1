@@ -15,4 +15,9 @@ public class MemberController {
 		request.setAttribute("list", list);
 		return list;
 	}
+
+	public void view(HttpServletRequest request, String id) {
+		MemberVO memberVO = memberService.view(id);
+		request.setAttribute("member", memberVO);
+	}
 }
