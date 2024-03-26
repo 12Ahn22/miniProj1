@@ -17,12 +17,14 @@ public class MemberDAO {
 	private static PreparedStatement listPs = null;
 	private static PreparedStatement viewPs = null;
 	private static PreparedStatement memberHobbiesPs = null;
+	private static PreparedStatement hobbiesPs = null;
 	private static PreparedStatement deletePs = null;
 	private static PreparedStatement updatePs = null;
 	
 	private static String listSQL = "select id, name, address, phone, gender from tb_members";
 	private static String viewSQL = "select id, name, address, phone, gender from tb_members where id = ?";
 	private static String memberHobbiesSQL = "select id, hobby from tb_member_hobbies tmh join tb_hobbies th on tmh.hobby_id = th.id where member_id = ?";
+	private static String hobbiesSQL = "select id, hobby from tb_hobbies";
 	private static String deleteSQL = "delete from tb_members where id = ?";
 	private static String updateSQL = "update tb_members set name = ?, password = ?, address = ?, phone = ? where id = ?";
 	
@@ -136,5 +138,21 @@ public class MemberDAO {
 			e.printStackTrace();
 		}
 		return updated;
+	}
+
+	public Map<Integer, String> getHobbies() {
+		Map<Integer, String> map = new HashMap<Integer, String>();
+		ResultSet rs = null;
+		try {
+			hobbiesPs = conn.prepareStatement(hobbiesSQL);
+			rs = hobbiesPs.executeQuery();
+			
+			while(rs.next()) {
+				map.put(rs.getInt("id"), rs.getString("hobby"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return map;
 	}
 }

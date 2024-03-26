@@ -34,6 +34,7 @@ public class MemberController {
 			map.put("status", 404);
 			map.put("statusMessage", "회원 정보 삭제 실패하였습니다");
 		}
+		
 		return map;
 	}
 
@@ -48,5 +49,11 @@ public class MemberController {
 			map.put("statusMessage", "회원 정보 수정 실패하였습니다");
 		}
 		return map;
+	}
+
+	public String updateForm(HttpServletRequest request, MemberVO member) {
+		MemberVO viewMember = memberService.updateForm(member);
+		request.setAttribute("member", viewMember);
+		return "memberUpdate";
 	}
 }

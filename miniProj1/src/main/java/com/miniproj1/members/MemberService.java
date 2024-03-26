@@ -28,4 +28,13 @@ public class MemberService {
 		int updated = memberDAO.update(member);
 		return updated;
 	}
+
+	public MemberVO updateForm(MemberVO member) {
+		MemberVO memberVO = memberDAO.view(member);
+		Map<Integer,String> memberHobbies = memberDAO.getMemberHobbies(member);
+		Map<Integer,String> hobbies = memberDAO.getHobbies();		
+		if(hobbies.size() != 0) memberVO.setMemberHobbies(memberHobbies);
+		memberVO.setHobbies(hobbies);
+		return memberVO;
+	}
 }
