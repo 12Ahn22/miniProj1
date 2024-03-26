@@ -1,6 +1,8 @@
 package com.miniproj1.members;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,5 +21,18 @@ public class MemberController {
 	public void view(HttpServletRequest request, String id) {
 		MemberVO memberVO = memberService.view(id);
 		request.setAttribute("member", memberVO);
+	}
+
+	public Map<String, Object> delete(String id) {
+		Map<String, Object> map = new HashMap<>();
+		
+		int updated = memberService.delete(id);
+		if(updated == 1) { // 성공
+			map.put("status", 204);
+		} else {
+			map.put("status", 404);
+			map.put("statusMessage", "회원 정보 삭제 실패하였습니다");
+		}
+		return map;
 	}
 }

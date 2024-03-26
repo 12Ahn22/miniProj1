@@ -17,4 +17,9 @@ public class MemberService {
 		memberVO.setHobbies(hobbies);
 		return memberVO;
 	}
+
+	public int delete(String id) {
+		int updated = memberDAO.delete(id);
+		return updated;
+	}
 }

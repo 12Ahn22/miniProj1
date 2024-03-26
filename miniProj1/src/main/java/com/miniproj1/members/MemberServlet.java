@@ -1,6 +1,7 @@
 package com.miniproj1.members;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -8,6 +9,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 @WebServlet("/member")
@@ -32,6 +35,8 @@ public class MemberServlet extends HttpServlet {
 			throws ServletException, IOException {
 		// 한글 설정
 		request.setCharacterEncoding("utf-8");
+		// 매핑
+		ObjectMapper objectMapper = new ObjectMapper();
 
 		String action = request.getParameter("action");
 
@@ -60,6 +65,16 @@ public class MemberServlet extends HttpServlet {
 		case "loginForm" ->{
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/members/login.jsp");
 			rd.forward(request, response);
+		}
+		
+		case "delete" -> {
+			// map을 결과로 받아서 JSON으로 맵핑해 응답으로 돌려줘야한다.
+			String id = request.getParameter("id");
+			Map<String, Object> map = memberController.delete(id);
+			// JSON으로 반환
+			response.setContentType("application/json;charset=UTF-8");
+			// map을 String으로 변환
+			response.getWriter().append(objectMapper.writeValueAsString(map));
 		}
 		default -> {
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/notFound.jsp");

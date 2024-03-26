@@ -15,10 +15,12 @@ public class MemberDAO {
 	private static PreparedStatement listPs = null;
 	private static PreparedStatement viewPs = null;
 	private static PreparedStatement memberHobbiesPs = null;
+	private static PreparedStatement deletePs = null;
 	
 	private static String listSQL = "select id, name, address, phone, gender from tb_members";
 	private static String viewSQL = "select id, name, address, phone, gender from tb_members where id = ?";
 	private static String memberHobbiesSQL = "select hobby from tb_member_hobbies tmh join tb_hobbies th on tmh.hobby_id = th.id where member_id = ?";
+	private static String deleteSQL = "delete from tb_members where id = ?";
 	
 	static {
 		try {
@@ -99,5 +101,18 @@ public class MemberDAO {
 		}
 		
 		return list;
+	}
+
+	public int delete(String id) {
+		int updated = 0;
+		
+		try {
+			deletePs = conn.prepareStatement(deleteSQL);
+			deletePs.setString(1, id);
+			updated = deletePs.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return updated;
 	}
 }
