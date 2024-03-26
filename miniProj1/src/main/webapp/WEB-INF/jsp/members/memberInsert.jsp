@@ -32,7 +32,8 @@
 					</div>
 					<div>
 						<label for="password2">비밀번호확인:</label>
-						<input type="password" id="password2" name="password2" required>
+						<!-- 서버로 보내지 않을 내용은 name을 써주지않는다. -->
+						<input type="password" id="password2" required>
 					</div>
 					<div>
 						<label for="phone">전화번호:</label>
@@ -63,10 +64,13 @@
 			<script type="text/javascript" src="<c:url value='/js/common.js'/>"></script>
 			<script>
 
+
+
 				// 업데이트 요청을 보내는 이벤트 리스너
 				const rForm = document.getElementById("rForm");
 				rForm.addEventListener("submit", (e) => {
-					e.preventDefault();
+				e.preventDefault();
+
 					fetch("member", {
 						method: "POST",
 						body: formToSerialize("rForm"),

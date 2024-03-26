@@ -76,6 +76,7 @@ public class MemberServlet extends HttpServlet {
 		// 매핑한 VO를 사용해 요청을 처리
 		Object result = switch (memberVO.getAction()) {
 		case "list" -> memberController.list(request);
+		case "insert" -> memberController.insert(request, memberVO);
 		case "insertForm" -> memberController.fetchInsertFormData(request);
 		case "updateForm" -> memberController.fetchUpdateFormData(request, memberVO);
 		case "update" -> memberController.update(request, memberVO);

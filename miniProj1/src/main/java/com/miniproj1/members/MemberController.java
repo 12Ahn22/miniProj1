@@ -65,4 +65,17 @@ public class MemberController {
 		request.setAttribute("hobbyList", hobbyList);
 		return "memberInsert";
 	}
+
+	public  Map<String, Object> insert(HttpServletRequest request, MemberVO member) {
+		Map<String, Object> map = new HashMap<>();
+		
+		int updated = memberService.insert(member);
+		if(updated == 1) { // 성공
+			map.put("status", 204);
+		} else {
+			map.put("status", 404);
+			map.put("statusMessage", "회원 가입에 실패하였습니다");
+		}
+		return map;
+	}
 }
