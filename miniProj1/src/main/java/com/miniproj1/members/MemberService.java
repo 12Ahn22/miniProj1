@@ -78,4 +78,8 @@ public class MemberService {
 		}
 		return updated;
 	}
+
+	public boolean authenticateMember(MemberVO member) {
+		return memberDAO.authenticateMember(member);		
+	}
 }

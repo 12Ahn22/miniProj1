@@ -78,4 +78,18 @@ public class MemberController {
 		}
 		return map;
 	}
+
+	public Map<String, Object> login(MemberVO member) {
+		Map<String, Object> map = new HashMap<>();
+		
+		// 성공
+		if(memberService.authenticateMember(member)) {
+			map.put("status", 204);
+		}else {
+		// 실패
+			map.put("status", 404);
+			map.put("statusMessage", "아이디 혹은 비밀번호가 잘못되었습니다.");
+		}
+		return map;
+	}
 }

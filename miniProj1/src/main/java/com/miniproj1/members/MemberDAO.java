@@ -20,6 +20,7 @@ public class MemberDAO {
 	private static PreparedStatement deletePs = null;
 	private static PreparedStatement updatePs = null;
 	private static PreparedStatement insertPs = null;
+	private static PreparedStatement authenticatePs = null;
 	
 	private static String listSQL = "select id, name, address, phone, gender from tb_members";
 	private static String viewSQL = "select id, name, address, phone, gender from tb_members where id = ?";
@@ -27,6 +28,7 @@ public class MemberDAO {
 	private static String deleteSQL = "delete from tb_members where id = ?";
 	private static String updateSQL = "update tb_members set name = ?, password = ?, address = ?, phone = ? where id = ?";
 	private static String insertSQL = "insert into tb_members (id, name, password, address, phone, gender) values(?,?,?,?,?,?)";
+	private static String authenticateSQL = "select id from tb_members where id=? and password = ?";
 	
 	static {
 		try {
@@ -157,5 +159,22 @@ public class MemberDAO {
 			e.printStackTrace();
 		}
 		return updated;
+	}
+
+	public boolean authenticateMember(MemberVO member) {
+		ResultSet rs = null;
+		
+		try {
+			authenticatePs = conn.prepareStatement(authenticateSQL);
+			authenticatePs.setString(1, member.getId());
+			authenticatePs.setString(2, member.getPassword());
+			rs = authenticatePs.executeQuery();
+			if(rs.next()) {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 }
