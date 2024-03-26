@@ -6,6 +6,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.miniproj1.hobbies.HobbyVO;
+
 public class MemberController {
 	MemberService memberService = new MemberService();
 	
@@ -56,5 +58,11 @@ public class MemberController {
 		request.setAttribute("member", map.get("memberVO"));
 		request.setAttribute("hobbyList", map.get("hobbyList"));
 		return "memberUpdate";
+	}
+
+	public String fetchInsertFormData(HttpServletRequest request) {
+		List<HobbyVO> hobbyList = memberService.fetchInsertFormData();
+		request.setAttribute("hobbyList", hobbyList);
+		return "memberInsert";
 	}
 }

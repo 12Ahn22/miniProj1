@@ -62,4 +62,8 @@ public class MemberService {
 		
 		return map;
 	}
+
+	public List<HobbyVO> fetchInsertFormData() {
+		return hobbyDAO.list();
+	}
 }
