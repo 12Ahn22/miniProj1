@@ -55,7 +55,7 @@
 						</c:forEach>
 					</div>
 					<button type="submit">수정</button>
-					<a href="member?action=list">취소</a>
+					<a href="member?action=view&id=${member.id}">취소</a>
 				</form>
 			</main>
 			<script type="text/javascript" src="<c:url value='/js/common.js'/>"></script>
