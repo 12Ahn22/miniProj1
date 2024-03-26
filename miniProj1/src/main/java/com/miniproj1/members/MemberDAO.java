@@ -6,7 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MemberDAO {
 	// 공유해 사용하기 위해 static으로 설정
@@ -20,7 +22,7 @@ public class MemberDAO {
 	
 	private static String listSQL = "select id, name, address, phone, gender from tb_members";
 	private static String viewSQL = "select id, name, address, phone, gender from tb_members where id = ?";
-	private static String memberHobbiesSQL = "select hobby from tb_member_hobbies tmh join tb_hobbies th on tmh.hobby_id = th.id where member_id = ?";
+	private static String memberHobbiesSQL = "select id, hobby from tb_member_hobbies tmh join tb_hobbies th on tmh.hobby_id = th.id where member_id = ?";
 	private static String deleteSQL = "delete from tb_members where id = ?";
 	private static String updateSQL = "update tb_members set name = ?, password = ?, address = ?, phone = ? where id = ?";
 	
@@ -87,22 +89,22 @@ public class MemberDAO {
 		return viewMember;
 	}
 	
-	public List<String> getMemberHobbies(MemberVO member) {
+	public Map<Integer,String> getMemberHobbies(MemberVO member) {
 		ResultSet rs = null;
-		List<String> list = new ArrayList<String>();
+		Map<Integer,String> map = new HashMap<>();
 		
 		try {
 			memberHobbiesPs = conn.prepareStatement(memberHobbiesSQL);
 			memberHobbiesPs.setString(1, member.getId());
 			rs = memberHobbiesPs.executeQuery();
 			while(rs.next()) {
-				list.add(rs.getString("hobby"));
+				map.put(rs.getInt("id"), rs.getString("hobby"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
-		return list;
+		return map;
 	}
 
 	public int delete(MemberVO member) {

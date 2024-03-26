@@ -1,6 +1,7 @@
 package com.miniproj1.members;
 
 import java.util.List;
+import java.util.Map;
 
 public class MemberService {
 	MemberDAO memberDAO = new MemberDAO();
@@ -13,7 +14,7 @@ public class MemberService {
 
 	public MemberVO view(MemberVO member) {
 		MemberVO memberVO = memberDAO.view(member);
-		List<String> hobbies = memberDAO.getMemberHobbies(member);
+		Map<Integer,String> hobbies = memberDAO.getMemberHobbies(member);
 		if(hobbies.size() != 0) memberVO.setHobbies(hobbies);
 		return memberVO;
 	}

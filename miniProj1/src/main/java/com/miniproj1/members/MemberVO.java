@@ -1,6 +1,7 @@
 package com.miniproj1.members;
 
 import java.util.List;
+import java.util.Map;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -18,7 +19,7 @@ public class MemberVO {
 	private String address;
 	private String phone;
 	private Gender gender;
-	private List<String> hobbies;
+	private Map<Integer, String> hobbies;
 	
 	// 요청 처리를 위한 필드
 	private String action;
@@ -43,7 +44,7 @@ public class MemberVO {
     }
 	
 	public String getGender() {
-		if(this.gender.equals(Gender.F)) return "여";
-		return "남";
+		if(this.gender.equals(Gender.F)) return "female";
+		return "male";
 	}
 }

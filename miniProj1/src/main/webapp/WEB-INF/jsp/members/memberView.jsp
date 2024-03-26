@@ -24,12 +24,12 @@
 				<div><span>주소:</span><span>${member.address}</span></div>
 				<div><span>취미:</span>
 					<c:forEach var="hobby" items="${member.hobbies}">
-						<span>${hobby}</span>
+						<span>${hobby.value}</span>
 					</c:forEach>
 				</div>
 
 				<div>
-					<button>수정</button> <button id="deleteBtn">삭제</button>
+					<a href="member?action=updateForm&id=${member.id}">수정</a> <button id="deleteBtn">삭제</button>
 				</div>
 			</main>
 
