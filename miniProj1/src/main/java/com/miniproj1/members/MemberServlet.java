@@ -77,7 +77,7 @@ public class MemberServlet extends HttpServlet {
 		Object result = switch (memberVO.getAction()) {
 		case "list" -> memberController.list(request);
 		case "insertForm" -> "memberInsert";
-		case "updateForm" -> memberController.updateForm(request, memberVO);
+		case "updateForm" -> memberController.fetchUpdateFormData(request, memberVO);
 		case "update" -> memberController.update(request, memberVO);
 		case "view" -> memberController.view(request, memberVO);
 		case "loginForm" -> "login";

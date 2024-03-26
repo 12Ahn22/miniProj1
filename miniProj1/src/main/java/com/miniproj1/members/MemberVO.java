@@ -18,7 +18,6 @@ public class MemberVO {
 	private String address;
 	private String phone;
 	private Gender gender;
-	private Map<Integer, String> memberHobbies; // 사용자가 선택한 취미
 	private Map<Integer, String> hobbies; // 모든 취미
 	
 	// 요청 처리를 위한 필드

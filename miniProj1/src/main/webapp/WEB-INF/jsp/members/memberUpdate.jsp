@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 		<!DOCTYPE html>
 		<html lang="ko">
 
@@ -17,9 +17,9 @@
 
 			<main>
 				<h1>회원 수정</h1>
-				<form>
+				<form id="uForm">
 					<div>
-						<input type="hidden" name="id" value="${member.id}"/>
+						<input type="hidden" name="id" value="${member.id}" />
 						<label for="name">이름:</label>
 						<input type="text" id="name" name="name" required value="${member.name}">
 					</div>
@@ -33,35 +33,29 @@
 					</div>
 					<div>
 						<label>성별:</label>
-							<c:if test="${member.gender.equals('female')}">
-								<input type="radio" id="female" name="gender" value="female" checked>
-								<label for="female">여성</label>
-								<input type="radio" id="male" name="gender" value="male">
-								<label for="male">남성</label>
-							</c:if>
-							<c:if test="${member.gender.equals('male')}">
-								<input type="radio" id="female" name="gender" value="female">
-								<label for="female">여성</label>
-								<input type="radio" id="male" name="gender" value="male" checked>
-								<label for="male">남성</label>
-							</c:if>
+						<input type="radio" id="female" name="gender" value="female" ${member.gender.equals('female') ? 'checked':''}>
+						<label for="female">여성</label>
+						<input type="radio" id="male" name="gender" value="male" ${member.gender.equals('female') ? '':'checked'}>
+						<label for="male">남성</label>
 					</div>
 					<div>
 						<label>취미:</label>
-						<c:forEach var="hobby" items="${member.hobbies}">
-							<c:if test="${member.memberHobbies.get(hobby.key) != null}">
-								<input type="checkbox" id="hobby${hobby.key}" name="hobbies" value="${hobby.key}" checked>
-								<label for="hobby${hobby.key}">${hobby.value}</label>
-							</c:if>
-							<c:if test="${member.memberHobbies.get(hobby.key) == null}">
-								<input type="checkbox" id="hobby${hobby.key}" name="hobbies" value="${hobby.key}">
-								<label for="hobby${hobby.key}">${hobby.value}</label>
-							</c:if>
+						<c:forEach var="hobby" items="${hobbyList}">
+							<input type="checkbox" id="hobby${hobby.id}" name="hobbies" value="${hobby.id}" ${member.hobbies[hobby.id] != null ? 'checked' : ''}>
+							<label for="hobby${hobby.id}">${hobby.hobby}</label>
 						</c:forEach>
 					</div>
 					<button type="submit">가입</button>
 				</form>
 			</main>
+			<script type="text/javascript" src="<c:url value='/js/common.js'/>"></script>
+			<script>
+				const uForm = document.getElementById("uForm");
+				uForm.addEventListener("submit",(e)=>{
+					e.preventDefault();
+					console.log("보낼데이터",formToSerialize("uForm"));
+					const elements = uForm.elements;
+				})
+			</script>
 		</body>
-
 		</html>

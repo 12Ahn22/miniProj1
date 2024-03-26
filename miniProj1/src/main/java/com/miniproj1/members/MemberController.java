@@ -51,9 +51,10 @@ public class MemberController {
 		return map;
 	}
 
-	public String updateForm(HttpServletRequest request, MemberVO member) {
-		MemberVO viewMember = memberService.updateForm(member);
-		request.setAttribute("member", viewMember);
+	public String fetchUpdateFormData(HttpServletRequest request, MemberVO member) {
+		Map<String,Object> map = memberService.fetchUpdateFormData(member);
+		request.setAttribute("member", map.get("memberVO"));
+		request.setAttribute("hobbyList", map.get("hobbyList"));
 		return "memberUpdate";
 	}
 }
