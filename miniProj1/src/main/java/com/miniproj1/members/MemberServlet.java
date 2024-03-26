@@ -87,6 +87,11 @@ public class MemberServlet extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/members/memberUpdate.jsp");
 			rd.forward(request, response);
 		}
+		case "update" ->{
+			Map<String, Object> map = memberController.update(request, memberVO);
+			response.setContentType("application/json;charset=UTF-8");
+			response.getWriter().append(objectMapper.writeValueAsString(map));
+		}
 		case "view" -> {
 			memberController.view(request, memberVO);
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/members/memberView.jsp");
@@ -96,7 +101,6 @@ public class MemberServlet extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/members/login.jsp");
 			rd.forward(request, response);
 		}
-		
 		case "delete" -> {
 			// map을 결과로 받아서 JSON으로 맵핑해 응답으로 돌려줘야한다.
 			Map<String, Object> map = memberController.delete(memberVO);

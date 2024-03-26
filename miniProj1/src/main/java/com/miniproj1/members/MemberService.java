@@ -22,4 +22,9 @@ public class MemberService {
 		int updated = memberDAO.delete(member);
 		return updated;
 	}
+
+	public int update(MemberVO member) {
+		int updated = memberDAO.update(member);
+		return updated;
+	}
 }

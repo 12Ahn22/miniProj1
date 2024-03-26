@@ -35,4 +35,17 @@ public class MemberController {
 		}
 		return map;
 	}
+
+	public Map<String, Object> update(HttpServletRequest request, MemberVO member) {
+		Map<String, Object> map = new HashMap<>();
+		
+		int updated = memberService.update(member);
+		if(updated == 1) { // 성공
+			map.put("status", 204);
+		} else {
+			map.put("status", 404);
+			map.put("statusMessage", "회원 정보 수정 실패하였습니다");
+		}
+		return map;
+	}
 }
