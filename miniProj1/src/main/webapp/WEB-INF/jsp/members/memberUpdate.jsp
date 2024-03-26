@@ -53,7 +53,6 @@
 				const uForm = document.getElementById("uForm");
 				uForm.addEventListener("submit",(e)=>{
 					e.preventDefault();
-					console.log("보낼데이터",formToSerialize("uForm"));
 					const elements = uForm.elements;
 				})
 			</script>
