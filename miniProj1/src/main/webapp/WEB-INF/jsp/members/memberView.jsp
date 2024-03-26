@@ -23,7 +23,7 @@
 				<div><span>전화번호:</span><span>${member.phone}</span></div>
 				<div><span>주소:</span><span>${member.address}</span></div>
 				<div><span>취미:</span>
-					<c:forEach var="hobby" items="${member.hobbies}">
+					<c:forEach var="hobby" items="${member.memberHobbies}">
 						<span>${hobby.value}</span>
 					</c:forEach>
 				</div>

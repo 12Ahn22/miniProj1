@@ -15,7 +15,7 @@ public class MemberService {
 	public MemberVO view(MemberVO member) {
 		MemberVO memberVO = memberDAO.view(member);
 		Map<Integer,String> hobbies = memberDAO.getMemberHobbies(member);
-		if(hobbies.size() != 0) memberVO.setHobbies(hobbies);
+		if(hobbies.size() != 0) memberVO.setMemberHobbies(hobbies);
 		return memberVO;
 	}
 
