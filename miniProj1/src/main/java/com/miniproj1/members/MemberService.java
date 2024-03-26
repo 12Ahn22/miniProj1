@@ -11,15 +11,15 @@ public class MemberService {
 		return list;
 	}
 
-	public MemberVO view(String id) {
-		MemberVO memberVO = memberDAO.view(id);
-		List<String> hobbies = memberDAO.getMemberHobbies(id);
-		memberVO.setHobbies(hobbies);
+	public MemberVO view(MemberVO member) {
+		MemberVO memberVO = memberDAO.view(member);
+		List<String> hobbies = memberDAO.getMemberHobbies(member);
+		if(hobbies.size() != 0) memberVO.setHobbies(hobbies);
 		return memberVO;
 	}
 
-	public int delete(String id) {
-		int updated = memberDAO.delete(id);
+	public int delete(MemberVO member) {
+		int updated = memberDAO.delete(member);
 		return updated;
 	}
 }

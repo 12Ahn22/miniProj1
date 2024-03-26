@@ -2,10 +2,15 @@ package com.miniproj1.members;
 
 import java.util.List;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class MemberVO {
 	private String id;
 	private String name;
@@ -13,9 +18,12 @@ public class MemberVO {
 	private String address;
 	private String phone;
 	private Gender gender;
-	@Setter
 	private List<String> hobbies;
 	
+	// 요청 처리를 위한 필드
+	private String action;
+	
+	// 보여주기 위한 데이터
 	public MemberVO(String id, String name, String address, String phone, String gender, String[] hobbies) {
 		this.id = id;
 		this.name = name;

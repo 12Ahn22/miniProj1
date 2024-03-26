@@ -18,15 +18,15 @@ public class MemberController {
 		return list;
 	}
 
-	public void view(HttpServletRequest request, String id) {
-		MemberVO memberVO = memberService.view(id);
-		request.setAttribute("member", memberVO);
+	public void view(HttpServletRequest request, MemberVO member) {
+		MemberVO viewMember = memberService.view(member);
+		request.setAttribute("member", viewMember);
 	}
 
-	public Map<String, Object> delete(String id) {
+	public Map<String, Object> delete(MemberVO member) {
 		Map<String, Object> map = new HashMap<>();
 		
-		int updated = memberService.delete(id);
+		int updated = memberService.delete(member);
 		if(updated == 1) { // 성공
 			map.put("status", 204);
 		} else {

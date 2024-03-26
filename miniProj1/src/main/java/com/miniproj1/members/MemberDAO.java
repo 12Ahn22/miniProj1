@@ -61,16 +61,16 @@ public class MemberDAO {
 		return list;
 	}
 
-	public MemberVO view(String id) {
+	public MemberVO view(MemberVO member) {
 		ResultSet rs = null;
-		MemberVO member = null;
+		MemberVO viewMember = null;
 		try {
 			viewPs = conn.prepareStatement(viewSQL);
-			viewPs.setString(1, id);
+			viewPs.setString(1, member.getId());
 			rs = viewPs.executeQuery();
 			
 			if(rs.next()) {
-				member = new MemberVO(
+				viewMember = new MemberVO(
 						rs.getString("id"),
 						rs.getString("name"),
 						rs.getString("address"),
@@ -82,16 +82,16 @@ public class MemberDAO {
 			e.printStackTrace();
 		}
 		
-		return member;
+		return viewMember;
 	}
 	
-	public List<String> getMemberHobbies(String id) {
+	public List<String> getMemberHobbies(MemberVO member) {
 		ResultSet rs = null;
 		List<String> list = new ArrayList<String>();
 		
 		try {
 			memberHobbiesPs = conn.prepareStatement(memberHobbiesSQL);
-			memberHobbiesPs.setString(1, id);
+			memberHobbiesPs.setString(1, member.getId());
 			rs = memberHobbiesPs.executeQuery();
 			while(rs.next()) {
 				list.add(rs.getString("hobby"));
@@ -103,12 +103,12 @@ public class MemberDAO {
 		return list;
 	}
 
-	public int delete(String id) {
+	public int delete(MemberVO member) {
 		int updated = 0;
 		
 		try {
 			deletePs = conn.prepareStatement(deleteSQL);
-			deletePs.setString(1, id);
+			deletePs.setString(1, member.getId());
 			updated = deletePs.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
