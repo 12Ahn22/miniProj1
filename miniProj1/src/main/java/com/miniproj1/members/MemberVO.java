@@ -46,4 +46,9 @@ public class MemberVO {
 		if(this.gender.equals(Gender.F)) return "female";
 		return "male";
 	}
+	
+	public void setGender(String gender) {
+		if(gender.equals("female")) this.gender = Gender.F;
+		else this.gender = Gender.M;
+	}
 }

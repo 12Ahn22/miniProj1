@@ -6,10 +6,12 @@ import java.util.Map;
 
 import com.miniproj1.hobbies.HobbyDAO;
 import com.miniproj1.hobbies.HobbyVO;
+import com.miniproj1.memberhobby.MemberHobbyDAO;
 
 public class MemberService {
 	MemberDAO memberDAO = new MemberDAO(); // 유저 정보
 	HobbyDAO hobbyDAO = new HobbyDAO(); // 취미
+	MemberHobbyDAO memberHobbyDAO = new MemberHobbyDAO(); // 멤버-취미 관계
 	
 	public List<MemberVO> list(){
 		// DAO를 호출한다.
@@ -29,7 +31,18 @@ public class MemberService {
 		return updated;
 	}
 
+	// 나중에 트랜잭션 처리를 해야하는 걸까..?
 	public int update(MemberVO member) {
+		// 멤버-취미 테이블에서 해당 멤버를 전부 삭제
+		memberHobbyDAO.deleteAll(member.getId());
+		
+		// 받은 취미를 전부 insert
+		Map<Integer, String> hobbies = member.getHobbies();
+		for(var hobby: hobbies.entrySet()) {
+			// 실패 처리를 어떻게 해야할까?
+			memberHobbyDAO.insert(member.getId(), hobby.getKey());
+		}
+		// 멤버 수정 사항 업데이트
 		int updated = memberDAO.update(member);
 		return updated;
 	}

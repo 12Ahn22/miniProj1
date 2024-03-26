@@ -18,10 +18,16 @@
 			<main>
 				<h1>회원 수정</h1>
 				<form id="uForm">
+					<h2>${member.id}</h2>
+					<input type="hidden" name="id" value="${member.id}" />
+					<input type="hidden" name="action" value="update" />
 					<div>
-						<input type="hidden" name="id" value="${member.id}" />
 						<label for="name">이름:</label>
 						<input type="text" id="name" name="name" required value="${member.name}">
+					</div>
+					<div>
+						<label for="password">비밀번호:</label>
+						<input type="password" id="password" name="password" required>
 					</div>
 					<div>
 						<label for="phone">전화번호:</label>
@@ -33,28 +39,48 @@
 					</div>
 					<div>
 						<label>성별:</label>
-						<input type="radio" id="female" name="gender" value="female" ${member.gender.equals('female') ? 'checked':''}>
+						<input type="radio" id="female" name="gender" value="female" ${member.gender.equals('female') ? 'checked'
+							:''} disabled>
 						<label for="female">여성</label>
-						<input type="radio" id="male" name="gender" value="male" ${member.gender.equals('female') ? '':'checked'}>
+						<input type="radio" id="male" name="gender" value="male" ${member.gender.equals('female') ? '' :'checked'}
+							disabled>
 						<label for="male">남성</label>
 					</div>
 					<div>
 						<label>취미:</label>
 						<c:forEach var="hobby" items="${hobbyList}">
-							<input type="checkbox" id="hobby${hobby.id}" name="hobbies" value="${hobby.id}" ${member.hobbies[hobby.id] != null ? 'checked' : ''}>
-							<label for="hobby${hobby.id}">${hobby.hobby}</label>
+							<input type="checkbox" id="${hobby.id}" name="hobbies" value="${hobby.hobby}" ${member.hobbies[hobby.id]
+								!=null ? 'checked' : '' }>
+							<label for="${hobby.id}">${hobby.hobby}</label>
 						</c:forEach>
 					</div>
-					<button type="submit">가입</button>
+					<button type="submit">수정</button>
+					<a href="member?action=list">취소</a>
 				</form>
 			</main>
 			<script type="text/javascript" src="<c:url value='/js/common.js'/>"></script>
 			<script>
+
+				// 업데이트 요청을 보내는 이벤트 리스너
 				const uForm = document.getElementById("uForm");
-				uForm.addEventListener("submit",(e)=>{
+				uForm.addEventListener("submit", (e) => {
 					e.preventDefault();
-					const elements = uForm.elements;
-				})
+					fetch("member", {
+						method: "POST",
+						body: formToSerialize("uForm"),
+						headers: { "Content-type": "application/json; charset=utf-8" }
+					}).then((res) => res.json())
+						.then((data) => {
+							if (data.status === 204) {
+								alert("회원 정보 수정에 성공했습니다.");
+								// 페이지 리다이렉트
+								location = "member?action=view&id=${member.id}";
+							} else {
+								alert(data.statusMessage);
+							}
+						});
+				});
 			</script>
 		</body>
+
 		</html>

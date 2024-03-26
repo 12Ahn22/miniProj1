@@ -84,7 +84,7 @@ public class MemberServlet extends HttpServlet {
 		case "delete" -> memberController.delete(memberVO);
 		default -> "notFound";
 		};
-
+		
 		// 응답 부분 정리
 		// 1. map인 경우 2.JSP페이지인 경우
 		if (result.getClass() == String.class) {
@@ -96,7 +96,7 @@ public class MemberServlet extends HttpServlet {
 				rd = request.getRequestDispatcher("/WEB-INF/jsp/members/" + result + ".jsp");
 
 			rd.forward(request, response);
-		} else if (result.getClass() == Map.class) {
+		} else if (result.getClass() == Map.class || result.getClass() == HashMap.class) {
 			// JSON을 응답으로 전달
 			response.setContentType("application/json;charset=UTF-8");
 			response.getWriter().append(objectMapper.writeValueAsString(result));
