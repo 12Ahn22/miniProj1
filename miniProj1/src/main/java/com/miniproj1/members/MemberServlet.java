@@ -79,6 +79,7 @@ public class MemberServlet extends HttpServlet {
 		case "insertForm" -> memberController.fetchInsertFormData(request); // page
 		case "updateForm" -> memberController.fetchUpdateFormData(request, memberVO); // page
 		case "view" -> memberController.view(request, memberVO); // page
+		case "profile" -> memberController.profile(request); // page
 		case "loginForm" -> "login"; // page
 		case "insert" -> memberController.insert(request, memberVO);
 		case "update" -> memberController.update(request, memberVO);

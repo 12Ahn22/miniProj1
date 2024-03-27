@@ -105,4 +105,11 @@ public class MemberController {
 		// main 화면으로 리다이렉트 하도록 응답
 		return "redirect:/";
 	}
+
+	public String profile(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		MemberVO viewMember = (MemberVO) session.getAttribute("loginMember");
+		request.setAttribute("member", viewMember);
+		return "memberProfile";
+	}
 }

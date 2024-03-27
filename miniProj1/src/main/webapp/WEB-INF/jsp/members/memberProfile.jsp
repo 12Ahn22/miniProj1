@@ -6,7 +6,7 @@
 		<head>
 			<meta charset="UTF-8">
 			<meta name="viewport" content="width=device-width, initial-scale=1.0">
-			<title>RATTY | 회원 상세정보</title>
+			<title>RATTY | 마이 프로필</title>
 		</head>
 
 		<body>
@@ -23,9 +23,6 @@
 						<span>${hobby.value}</span>
 					</c:forEach>
 				</div>
-				<c:if test="${loginMember.id.equals(member.id)}">
-					
-				</c:if>
 				<div>
 					<a href="member?action=updateForm&id=${member.id}">수정</a> <button id="deleteBtn">삭제</button>
 				</div>
