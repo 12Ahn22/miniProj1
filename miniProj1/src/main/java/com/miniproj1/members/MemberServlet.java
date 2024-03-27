@@ -85,7 +85,7 @@ public class MemberServlet extends HttpServlet {
 		case "update" -> memberController.update(request, memberVO);
 		case "login" -> memberController.login(request, memberVO);
 		case "logout" -> memberController.logout(request);
-		case "delete" -> memberController.delete(memberVO);
+		case "delete" -> memberController.delete(request, memberVO);
 		default -> "notFound"; // page
 		};
 
