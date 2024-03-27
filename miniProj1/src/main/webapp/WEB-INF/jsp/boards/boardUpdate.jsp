@@ -9,9 +9,17 @@
 <title>RATTY | 게시글 수정</title>
 </head>
 <body>
-	<!-- 임시로 로그인 여부 처리 -->
-	<jsp:include page="../layout/layoutHeader.jsp">
-		<jsp:param name="isLogin" value="false" />
-	</jsp:include>
+	<jsp:include page="../layout/layoutHeader.jsp"/>
+	<main>
+		<h2>게시물 수정</h2>
+		<form>
+			<label for="title">제목:</label><br>
+			<input type="text" id="title" name="title" value="${board.title}"><br>
+			<label for="content">내용:</label><br>
+			<textarea id="content" name="content" rows="4" cols="50">${board.content}</textarea><br><br>
+			<input type="submit" value="수정">
+			<a href="board?action=view&bno=${board.bno}">취소</a>
+	</form>
+	</main>
 </body>
 </html>

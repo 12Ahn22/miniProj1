@@ -21,7 +21,7 @@
 		</div>
 		<c:if test="${isLogin != null}">
 			<div>
-				<a href="board?action=updateForm">수정</a>
+				<a href="board?action=updateForm&bno=${board.bno}">수정</a>
 				<button id="deleteBtn">삭제</button>
 			</div>
 		</c:if>

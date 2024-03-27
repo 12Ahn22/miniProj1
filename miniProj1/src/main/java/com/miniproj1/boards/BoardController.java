@@ -67,4 +67,11 @@ public class BoardController {
 		return map;
 	}
 
+	public String updateForm(HttpServletRequest request, BoardVO boardVO) {
+		// 게시글 정보
+		BoardVO board = boardService.view(boardVO);
+		request.setAttribute("board", board);
+		return "boardUpdate";
+	}
+
 }
