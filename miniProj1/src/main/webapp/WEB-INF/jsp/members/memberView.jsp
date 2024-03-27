@@ -23,9 +23,6 @@
 						<span>${hobby.value}</span>
 					</c:forEach>
 				</div>
-				<c:if test="${loginMember.id.equals(member.id)}">
-					
-				</c:if>
 				<div>
 					<a href="member?action=updateForm&id=${member.id}">수정</a> <button id="deleteBtn">삭제</button>
 				</div>

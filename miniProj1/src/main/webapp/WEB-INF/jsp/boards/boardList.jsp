@@ -12,6 +12,9 @@
 	<jsp:include page="../layout/layoutHeader.jsp"/>
 	<main>
 		<h1>회원 리스트</h1>
+		<c:if test="${isLogin}">
+			<a href="board?action=insertForm">새 글 작성하기</a>
+		</c:if>
 		<table class="table">
 			<thead>
 				<tr>
