@@ -5,8 +5,8 @@ import java.util.List;
 public class BoardService {
 	BoardDAO borBoardDAO = new BoardDAO();
 	
-	public List<BoardVO> list() {
-		List<BoardVO> list = borBoardDAO.list();
+	public List<BoardVO> list(BoardVO boardVO) {
+		List<BoardVO> list = borBoardDAO.list(boardVO.getSearchKey());
 		return list;
 	}
 

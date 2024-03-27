@@ -15,6 +15,11 @@
 		<c:if test="${isLogin}">
 			<a href="board?action=insertForm">새 글 작성하기</a>
 		</c:if>
+		<form id="searchForm" method="get" action="board?action=list">
+			<input type="text" name="searchKey" id="searchKey" placeholder="Search...">
+			<input type="hidden" name="action" value="list">
+			<input type="submit" value="검색">
+		</form>
 		<table class="table">
 			<thead>
 				<tr>
@@ -38,5 +43,12 @@
 			</tbody>
 		</table>
 	</main>
+	<script>
+		const searchForm = document.getElementById("searchForm");
+		searchForm.addEventListener("submit",(e)=>{
+			e.preventDefault();
+			searchForm.submit();
+		});
+	</script>
 </body>
 </html>

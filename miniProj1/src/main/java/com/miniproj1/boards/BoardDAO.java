@@ -19,7 +19,7 @@ public class BoardDAO {
 	private static PreparedStatement updatePs = null;
 	private static PreparedStatement insertPs = null;
 	
-	private static String listSQL = "select bno, title, author, content, created_at,view_count from tb_boards";
+	private static String listSQL = "select bno, title, author, content, created_at,view_count from tb_boards where title like ?";
 	private static String viewSQL = "select id, name, address, phone, gender from tb_members where id = ?";
 	private static String deleteSQL = "delete from tb_members where id = ?";
 	private static String updateSQL = "update tb_members set name = ?, password = ?, address = ?, phone = ? where id = ?";
@@ -41,12 +41,15 @@ public class BoardDAO {
 		}
 	}
 	
-	public List<BoardVO> list() {
+	public List<BoardVO> list(String searchKey) {
 		ResultSet rs = null;
 		List<BoardVO> list = new ArrayList<>();
 		
 		try {
 			listPs = conn.prepareStatement(listSQL);
+			if(searchKey == null) {
+				listPs.setString(1, "%");
+			} else listPs.setString(1, "%" + searchKey + "%");
 			rs = listPs.executeQuery();
 			
 			while(rs.next()) {
