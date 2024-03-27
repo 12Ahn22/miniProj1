@@ -40,6 +40,7 @@ public class HobbyDAO {
 			while(rs.next()) {
 				list.add(new HobbyVO(rs.getInt("id"),rs.getString("hobby")));
 			}
+			rs.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

@@ -64,6 +64,7 @@ public class BoardDAO {
 							rs.getInt("view_count")
 						));
 			}
+			rs.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -88,6 +89,7 @@ public class BoardDAO {
 							rs.getInt("view_count")
 						);
 			}
+			rs.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

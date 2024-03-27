@@ -63,6 +63,7 @@ public class MemberDAO {
 							rs.getString("gender")
 						));
 			}
+			rs.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -86,6 +87,7 @@ public class MemberDAO {
 						rs.getString("gender")
 					);
 			}
+			rs.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -104,10 +106,10 @@ public class MemberDAO {
 			while(rs.next()) {
 				map.put(rs.getInt("id"), rs.getString("hobby"));
 			}
+			rs.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
 		return map;
 	}
 
