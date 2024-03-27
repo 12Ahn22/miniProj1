@@ -45,9 +45,9 @@
 						}).then((res) => res.json())
 							.then((data) => {
 							if (data.status === 204) {
-								alert("회원 정보공삭제에 성공했습니다.");
+								alert("회원 정보삭제에 성공했습니다.");
 								// 페이지 리다이렉트
-								location = "member?action=list";
+								location = "/";
 							} else {
 								alert(data.statusMessage);
 							}
