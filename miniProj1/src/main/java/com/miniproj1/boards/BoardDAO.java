@@ -20,7 +20,7 @@ public class BoardDAO {
 	private static PreparedStatement insertPs = null;
 	
 	private static String listSQL = "select bno, title, author, content, created_at,view_count from tb_boards where title like ?";
-	private static String viewSQL = "select id, name, address, phone, gender from tb_members where id = ?";
+	private static String viewSQL = "select bno, title, author, content, created_at,view_count from tb_boards where bno = ?";
 	private static String deleteSQL = "delete from tb_members where id = ?";
 	private static String updateSQL = "update tb_members set name = ?, password = ?, address = ?, phone = ? where id = ?";
 	private static String insertSQL = "insert into tb_members (id, name, password, address, phone, gender) values(?,?,?,?,?,?)";
@@ -66,6 +66,30 @@ public class BoardDAO {
 			e.printStackTrace();
 		}
 		return list;
+	}
+
+	public BoardVO view(Integer bno) {
+		ResultSet rs = null;
+		BoardVO board = null;
+		
+		try {
+			viewPs = conn.prepareStatement(viewSQL);
+			viewPs.setInt(1, bno);
+			rs = viewPs.executeQuery();
+			if(rs.next()) {
+				board = new BoardVO(
+							rs.getInt("bno"),
+							rs.getString("title"),
+							rs.getString("author"),
+							rs.getString("content"),
+							rs.getString("created_at"),
+							rs.getInt("view_count")
+						);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return board;
 	}
 
 }

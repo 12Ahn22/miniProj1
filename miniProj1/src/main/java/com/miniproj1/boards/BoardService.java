@@ -3,11 +3,14 @@ package com.miniproj1.boards;
 import java.util.List;
 
 public class BoardService {
-	BoardDAO borBoardDAO = new BoardDAO();
+	BoardDAO boardDAO = new BoardDAO();
 	
 	public List<BoardVO> list(BoardVO boardVO) {
-		List<BoardVO> list = borBoardDAO.list(boardVO.getSearchKey());
-		return list;
+		return boardDAO.list(boardVO.getSearchKey());
+	}
+
+	public BoardVO view(BoardVO boardVO) {
+		return boardDAO.view(boardVO.getBno());
 	}
 
 }

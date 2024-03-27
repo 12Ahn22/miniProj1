@@ -20,4 +20,10 @@ public class BoardController {
 		return "boardList";
 	}
 
+	public String view(HttpServletRequest request, BoardVO boardVO) {
+		BoardVO board = boardService.view(boardVO);
+		request.setAttribute("board", board);
+		return "boardView";
+	}
+
 }

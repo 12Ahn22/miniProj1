@@ -58,6 +58,7 @@ public class BoardServlet extends HttpServlet {
 
 		Object result = switch (boardVO.getAction()) {
 			case "list" -> boardController.list(request, boardVO);
+			case "view" -> boardController.view(request, boardVO);
 			default -> "notFound";
 		};
 		

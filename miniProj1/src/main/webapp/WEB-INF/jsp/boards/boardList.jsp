@@ -34,7 +34,7 @@
 				<c:forEach var="board" items="${list}">
 					<tr>
 						<td>${board.bno}</td>
-						<td><a href="board?action=view&id=${board.bno}">${board.title}</a></td>
+						<td><a href="board?action=view&bno=${board.bno}">${board.title}</a></td>
 						<td>${board.author}</td>
 						<td>${board.createdAt}</td>
 						<td>${board.viewCount}</td>

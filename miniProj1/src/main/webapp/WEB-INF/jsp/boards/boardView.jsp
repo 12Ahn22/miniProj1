@@ -9,9 +9,13 @@
 <title>RATTY | 게시글 상세</title>
 </head>
 <body>
-	<!-- 임시로 로그인 여부 처리 -->
-	<jsp:include page="../layout/layoutHeader.jsp">
-		<jsp:param name="isLogin" value="false" />
-	</jsp:include>
+	<jsp:include page="../layout/layoutHeader.jsp"/>
+	<main>
+		<h1>${board.title}</h1>
+		<div><span>작성자: ${board.author}</span><span>조회수: ${board.viewCount}</span><span>작성일: ${board.createdAt}</span></div>
+		<div>
+			${board.content}
+		</div>
+	</main>
 </body>
 </html>
