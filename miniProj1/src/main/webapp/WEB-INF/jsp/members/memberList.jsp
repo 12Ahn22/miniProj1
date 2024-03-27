@@ -9,10 +9,7 @@
 <title>RATTY | 회원 목록</title>
 </head>
 <body>
-	<!-- 임시로 로그인 여부 처리 -->
-	<jsp:include page="../layout/layoutHeader.jsp">
-		<jsp:param name="isLogin" value="false" />
-	</jsp:include>
+	<jsp:include page="../layout/layoutHeader.jsp" />
 	<main>
 		<h1>회원 리스트</h1>
 		<table class="table">

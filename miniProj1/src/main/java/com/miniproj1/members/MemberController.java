@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import com.miniproj1.hobbies.HobbyVO;
 
@@ -79,11 +80,14 @@ public class MemberController {
 		return map;
 	}
 
-	public Map<String, Object> login(MemberVO member) {
+	public Map<String, Object> login(HttpServletRequest request, MemberVO member) {
 		Map<String, Object> map = new HashMap<>();
 		
 		// 성공
 		if(memberService.authenticateMember(member)) {
+			HttpSession session = request.getSession();
+			session.setAttribute("isLogin", true);
+			session.setMaxInactiveInterval(30*60*1000); // 30분
 			map.put("status", 204);
 		}else {
 		// 실패

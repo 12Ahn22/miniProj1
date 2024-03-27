@@ -75,17 +75,18 @@ public class MemberServlet extends HttpServlet {
 
 		// 매핑한 VO를 사용해 요청을 처리
 		Object result = switch (memberVO.getAction()) {
-		case "list" -> memberController.list(request);
+		case "list" -> memberController.list(request); // page
+		case "insertForm" -> memberController.fetchInsertFormData(request); // page
+		case "updateForm" -> memberController.fetchUpdateFormData(request, memberVO); // page
+		case "view" -> memberController.view(request, memberVO); // page
+		case "loginForm" -> "login"; // page
 		case "insert" -> memberController.insert(request, memberVO);
-		case "insertForm" -> memberController.fetchInsertFormData(request);
-		case "updateForm" -> memberController.fetchUpdateFormData(request, memberVO);
 		case "update" -> memberController.update(request, memberVO);
-		case "view" -> memberController.view(request, memberVO);
-		case "loginForm" -> "login";
-		case "login" -> memberController.login(memberVO);
+		case "login" -> memberController.login(request, memberVO);
 		case "delete" -> memberController.delete(memberVO);
-		default -> "notFound";
+		default -> "notFound"; // page
 		};
+		
 		
 		// 응답 부분 정리
 		// 1. map인 경우 2.JSP페이지인 경우

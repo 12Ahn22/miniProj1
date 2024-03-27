@@ -10,11 +10,7 @@
 		</head>
 
 		<body>
-			<!-- 임시로 로그인 여부 처리 -->
-			<jsp:include page="../layout/layoutHeader.jsp">
-				<jsp:param name="isLogin" value="false" />
-			</jsp:include>
-
+			<jsp:include page="../layout/layoutHeader.jsp" />
 			<main>
 				<input type="hidden" id="memberId" value="${member.id}" />
 				<h1>${member.id}</h1>
