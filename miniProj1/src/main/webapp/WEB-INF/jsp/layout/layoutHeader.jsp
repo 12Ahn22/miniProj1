@@ -9,11 +9,11 @@
 	<nav>
 		<ul>
 			<li><a href="intro.jsp">회사소개</a></li>
-			<c:if test="${isLogin}">
+			<c:if test="${loginMember != null}">
 				<!-- 로그인 상태일 때 수행할 내용 -->
 				<li><a href="member?action=logout">로그아웃</a></li>
 			</c:if>
-			<c:if test="${isLogin == null}">
+			<c:if test="${loginMember == null}">
 				<!-- 비로그인 상태일 때 수행할 내용 -->
 				<li><a href="member?action=insertForm">회원가입</a></li>
 				<li><a href="member?action=loginForm">로그인</a></li>

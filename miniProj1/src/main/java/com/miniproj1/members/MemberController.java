@@ -86,7 +86,8 @@ public class MemberController {
 		// 성공
 		if(memberService.authenticateMember(member)) {
 			HttpSession session = request.getSession();
-			session.setAttribute("isLogin", true);
+			MemberVO viewMember = memberService.view(member);
+			session.setAttribute("loginMember", viewMember);
 			session.setMaxInactiveInterval(30*60*1000); // 30분
 			map.put("status", 204);
 		}else {
@@ -99,7 +100,7 @@ public class MemberController {
 
 	public String logout(HttpServletRequest request) {
 		HttpSession session = request.getSession();
-		session.removeAttribute("isLogin");
+		session.removeAttribute("loginMember");
 		session.invalidate();
 		// main 화면으로 리다이렉트 하도록 응답
 		return "redirect:/";
