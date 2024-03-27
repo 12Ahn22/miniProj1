@@ -96,4 +96,12 @@ public class MemberController {
 		}
 		return map;
 	}
+
+	public String logout(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		session.removeAttribute("isLogin");
+		session.invalidate();
+		// main 화면으로 리다이렉트 하도록 응답
+		return "redirect:/";
+	}
 }

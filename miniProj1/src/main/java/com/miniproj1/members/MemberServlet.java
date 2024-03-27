@@ -83,22 +83,27 @@ public class MemberServlet extends HttpServlet {
 		case "insert" -> memberController.insert(request, memberVO);
 		case "update" -> memberController.update(request, memberVO);
 		case "login" -> memberController.login(request, memberVO);
+		case "logout" -> memberController.logout(request);
 		case "delete" -> memberController.delete(memberVO);
 		default -> "notFound"; // page
 		};
-		
-		
+
 		// 응답 부분 정리
 		// 1. map인 경우 2.JSP페이지인 경우
 		if (result.getClass() == String.class) {
-			RequestDispatcher rd = null;
-			// JSP 페이지를 응답으로 전달
-			if (result.equals("notFound"))
-				rd = request.getRequestDispatcher("/WEB-INF/jsp/" + result + ".jsp");
-			else
-				rd = request.getRequestDispatcher("/WEB-INF/jsp/members/" + result + ".jsp");
-
-			rd.forward(request, response);
+			String url = (String) result;
+			// 리다이렉트
+			if (url.startsWith("redirect:")) {
+				response.sendRedirect(url.substring("redirect:".length()));
+			} else {
+				RequestDispatcher rd = null;
+				// JSP 페이지를 응답으로 전달
+				if (result.equals("notFound"))
+					rd = request.getRequestDispatcher("/WEB-INF/jsp/" + result + ".jsp");
+				else
+					rd = request.getRequestDispatcher("/WEB-INF/jsp/members/" + result + ".jsp");
+				rd.forward(request, response);
+			}
 		} else if (result.getClass() == Map.class || result.getClass() == HashMap.class) {
 			// JSON을 응답으로 전달
 			response.setContentType("application/json;charset=UTF-8");
