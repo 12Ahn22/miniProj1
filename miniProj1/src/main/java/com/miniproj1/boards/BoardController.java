@@ -1,6 +1,8 @@
 package com.miniproj1.boards;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -36,6 +38,33 @@ public class BoardController {
 			}
 		}
 		return "boardView";
+	}
+
+	public Map<String,Object> delete(HttpServletRequest request, BoardVO boardVO) {
+		Map<String, Object> map = new HashMap<>();
+		HttpSession session = request.getSession();
+		MemberVO loginMember = (MemberVO) session.getAttribute("loginMember"); // 로그인 한 유저
+		
+		// 현재 세션의 유저와 입력된 정보의 id가 같지 않다면 수정 불가
+		if(!loginMember.getId().equals("ADMIN")) { // 어드민이 아닐 때만 체크
+			if(!loginMember.getId().equals(boardVO.getAuthor())) { // 로그인 유저와 요청 유저가 다르다면
+				// 실패
+				map.put("status", 404);
+				map.put("statusMessage", "잘못된 요청입니다.");
+				return map;
+			}
+		}
+		
+		int updated = boardService.delete(boardVO);
+		
+		if(updated == 1) { // 성공
+			map.put("status", 204);
+		} else {
+			map.put("status", 404);
+			map.put("statusMessage", "게시글 삭제에 실패하였습니다");
+		}
+		
+		return map;
 	}
 
 }

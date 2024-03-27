@@ -16,4 +16,8 @@ public class BoardService {
 		return boardDAO.view(boardVO.getBno());
 	}
 
+	public int delete(BoardVO boardVO) {
+		return boardDAO.delete(boardVO.getBno());
+	}
+
 }

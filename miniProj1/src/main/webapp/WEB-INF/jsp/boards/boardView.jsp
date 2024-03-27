@@ -12,6 +12,9 @@
 	<jsp:include page="../layout/layoutHeader.jsp"/>
 	<main>
 		<h1>${board.title}</h1>
+		<div>${board.bno}</div>
+		<input type="hidden" name="bno" id="bno" value="${board.bno}">
+		<input type="hidden" name="author" id="author" value="${board.author}">
 		<div><span>작성자: ${board.author}</span><span>조회수: ${board.viewCount}</span><span>작성일: ${board.createdAt}</span></div>
 		<div>
 			${board.content}
@@ -19,9 +22,38 @@
 		<c:if test="${isLogin != null}">
 			<div>
 				<a href="board?action=updateForm">수정</a>
-				<button>삭제</button>
+				<button id="deleteBtn">삭제</button>
 			</div>
 		</c:if>
 	</main>
+	<script>
+		const deleteBtn = document.getElementById("deleteBtn");
+		if(deleteBtn){
+			deleteBtn.addEventListener("click",() => {
+						if (confirm("정말 삭제하시겠습니까?")) {
+							const param = {
+								bno: bno.value,
+								author: author.value,
+								action: "delete"
+							}
+
+							fetch("board", {
+								method: "POST",
+								body: JSON.stringify(param),
+								headers: { "Content-type": "application/json; charset=utf-8" }
+							}).then((res) => res.json())
+								.then((data) => {
+								if (data.status === 204) {
+									alert("게시글 삭제에 성공했습니다.");
+									// 페이지 리다이렉트
+									location = "board?action=list";
+								} else {
+									alert(data.statusMessage);
+								}
+							})
+						}
+					});
+		}
+	</script>
 </body>
 </html>
