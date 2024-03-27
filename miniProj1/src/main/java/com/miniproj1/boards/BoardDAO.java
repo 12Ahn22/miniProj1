@@ -15,12 +15,14 @@ public class BoardDAO {
 
 	private static PreparedStatement listPs = null;
 	private static PreparedStatement viewPs = null;
+	private static PreparedStatement increaseViewCountPs = null;
 	private static PreparedStatement deletePs = null;
 	private static PreparedStatement updatePs = null;
 	private static PreparedStatement insertPs = null;
 	
 	private static String listSQL = "select bno, title, author, content, created_at,view_count from tb_boards where title like ?";
 	private static String viewSQL = "select bno, title, author, content, created_at,view_count from tb_boards where bno = ?";
+	private static String increaseViewCountSQL = "update tb_boards set view_count = view_count + 1 where bno = ?";
 	private static String deleteSQL = "delete from tb_members where id = ?";
 	private static String updateSQL = "update tb_members set name = ?, password = ?, address = ?, phone = ? where id = ?";
 	private static String insertSQL = "insert into tb_members (id, name, password, address, phone, gender) values(?,?,?,?,?,?)";
@@ -90,6 +92,18 @@ public class BoardDAO {
 			e.printStackTrace();
 		}
 		return board;
+	}
+
+	public int increaseViewCount(Integer bno) {
+		int updated = 0;
+		try {
+			increaseViewCountPs = conn.prepareStatement(increaseViewCountSQL);
+			increaseViewCountPs.setInt(1, bno);
+			updated = increaseViewCountPs.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return updated;
 	}
 
 }

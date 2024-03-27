@@ -10,6 +10,9 @@ public class BoardService {
 	}
 
 	public BoardVO view(BoardVO boardVO) {
+		// view 카운트를 증가
+		boardDAO.increaseViewCount(boardVO.getBno());
+		// board 반환
 		return boardDAO.view(boardVO.getBno());
 	}
 
