@@ -62,6 +62,7 @@ public class BoardServlet extends HttpServlet {
 			case "delete" -> boardController.delete(request, boardVO);
 			case "updateForm" -> boardController.updateForm(request, boardVO);
 			case "update" -> boardController.update(request, boardVO);
+			case "insertForm" -> boardController.insertForm(request);
 			default -> "notFound";
 		};
 		

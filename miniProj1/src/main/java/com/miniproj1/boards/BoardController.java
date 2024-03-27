@@ -115,4 +115,14 @@ public class BoardController {
 		return map;
 	}
 
+	public String insertForm(HttpServletRequest request) {
+		// 로그인 상태라면, 해당 로그인 정보를 JSP로 보내주기
+		HttpSession session = request.getSession();
+		MemberVO loginMember = (MemberVO) session.getAttribute("loginMember");
+		if(loginMember != null) {
+			request.setAttribute("member", loginMember);
+		}
+		return "boardInsert";
+	}
+
 }
