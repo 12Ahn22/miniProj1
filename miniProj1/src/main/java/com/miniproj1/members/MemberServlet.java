@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.miniproj1.utils.CommonUtil;
 
 @WebServlet("/member")
 public class MemberServlet extends HttpServlet {
@@ -21,21 +22,6 @@ public class MemberServlet extends HttpServlet {
 
 	public MemberServlet() {
 		super();
-	}
-
-	private Map<String, Object> convertMap(Map<String, String[]> map) {
-		Map<String, Object> result = new HashMap<>();
-		for (var entry : map.entrySet()) {
-			if (entry.getValue().length == 1) {
-				// 문자열 1건
-				// 해당 키에 해당하는 값이 단일 객체라는 의미
-				result.put(entry.getKey(), entry.getValue()[0]);
-			} else {
-				// 문자열 배열을 추가한다
-				result.put(entry.getKey(), entry.getValue());
-			}
-		}
-		return result;
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -67,7 +53,7 @@ public class MemberServlet extends HttpServlet {
 			// 파라미터를 MemberVO와 매핑
 			// request.getParameterMap()는 Map<String,String[]>를 반환하기 때문에
 			// 이것을 Map<String,Object>으로 변환해줘야한다.
-			memberVO = objectMapper.convertValue(convertMap(request.getParameterMap()), MemberVO.class);
+			memberVO = objectMapper.convertValue(CommonUtil.convertMap(request.getParameterMap()), MemberVO.class);
 		} else if (contentType.startsWith("application/json")) { // JSON으로 온 요청인 경우
 			// JSON String을 MemberVO와 매핑
 			memberVO = objectMapper.readValue(request.getInputStream(), MemberVO.class);
