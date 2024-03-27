@@ -45,6 +45,10 @@ public class MemberController {
 		int updated = memberService.delete(member);
 		if(updated == 1) { // 성공
 			map.put("status", 204);
+			// 회원 탈퇴 시, 세션 정보도 삭제
+			session.removeAttribute("loginMember");
+			session.invalidate();
+			
 		} else {
 			map.put("status", 404);
 			map.put("statusMessage", "회원 정보 삭제 실패하였습니다");
@@ -131,6 +135,7 @@ public class MemberController {
 		HttpSession session = request.getSession();
 		session.removeAttribute("loginMember");
 		session.invalidate();
+		
 		// main 화면으로 리다이렉트 하도록 응답
 		return "redirect:/";
 	}
