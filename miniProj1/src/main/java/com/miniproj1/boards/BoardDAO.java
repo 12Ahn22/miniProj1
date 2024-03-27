@@ -24,7 +24,7 @@ public class BoardDAO {
 	private static String viewSQL = "select bno, title, author, content, created_at,view_count from tb_boards where bno = ?";
 	private static String increaseViewCountSQL = "update tb_boards set view_count = view_count + 1 where bno = ?";
 	private static String deleteSQL = "delete from tb_boards where bno = ?";
-	private static String updateSQL = "update tb_members set name = ?, password = ?, address = ?, phone = ? where id = ?";
+	private static String updateSQL = "update tb_boards set title = ?, content = ? where bno = ?";
 	private static String insertSQL = "insert into tb_members (id, name, password, address, phone, gender) values(?,?,?,?,?,?)";
 	
 	static {
@@ -112,6 +112,20 @@ public class BoardDAO {
 			deletePs = conn.prepareStatement(deleteSQL);
 			deletePs.setInt(1, bno);
 			updated = deletePs.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return updated;
+	}
+
+	public int update(BoardVO boardVO) {
+		int updated = 0;
+		try {
+			updatePs = conn.prepareStatement(updateSQL);
+			updatePs.setString(1, boardVO.getTitle());
+			updatePs.setString(2, boardVO.getContent());
+			updatePs.setInt(3, boardVO.getBno());
+			updated = updatePs.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

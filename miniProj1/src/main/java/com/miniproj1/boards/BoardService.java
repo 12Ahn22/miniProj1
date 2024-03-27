@@ -20,4 +20,8 @@ public class BoardService {
 		return boardDAO.delete(boardVO.getBno());
 	}
 
+	public int update(BoardVO boardVO) {
+		return boardDAO.update(boardVO);
+	}
+
 }
