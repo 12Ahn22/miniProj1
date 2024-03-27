@@ -45,6 +45,13 @@ public class BoardController {
 		HttpSession session = request.getSession();
 		MemberVO loginMember = (MemberVO) session.getAttribute("loginMember"); // 로그인 한 유저
 		
+		// 로그인 하지않았다면
+		if(loginMember == null) {
+			map.put("status", 404);
+			map.put("statusMessage", "로그인을 해야합니다.");
+			return map;
+		}
+		
 		// 현재 세션의 유저와 입력된 정보의 id가 같지 않다면 수정 불가
 		if(!loginMember.getId().equals("ADMIN")) { // 어드민이 아닐 때만 체크
 			if(!loginMember.getId().equals(boardVO.getAuthor())) { // 로그인 유저와 요청 유저가 다르다면
@@ -78,6 +85,13 @@ public class BoardController {
 		Map<String, Object> map = new HashMap<>();
 		HttpSession session = request.getSession();
 		MemberVO loginMember = (MemberVO) session.getAttribute("loginMember"); // 로그인 한 유저
+		
+		// 로그인 하지않았다면
+		if(loginMember == null) {
+			map.put("status", 404);
+			map.put("statusMessage", "로그인을 해야합니다.");
+			return map;
+		}
 		
 		// 현재 세션의 유저와 입력된 정보의 id가 같지 않다면 수정 불가
 		if(!loginMember.getId().equals("ADMIN")) { // 어드민이 아닐 때만 체크
