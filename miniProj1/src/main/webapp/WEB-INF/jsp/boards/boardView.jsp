@@ -16,6 +16,12 @@
 		<div>
 			${board.content}
 		</div>
+		<c:if test="${isLogin != null}">
+			<div>
+				<a href="board?action=updateForm">수정</a>
+				<button>삭제</button>
+			</div>
+		</c:if>
 	</main>
 </body>
 </html>
