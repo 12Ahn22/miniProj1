@@ -12,6 +12,7 @@
 	<jsp:include page="../layout/layoutHeader.jsp"/>
 	<main>
 		<h1>${board.title}</h1>
+		<a href="board?action=list">목록</a>
 		<div>${board.bno}</div>
 		<input type="hidden" name="bno" id="bno" value="${board.bno}">
 		<input type="hidden" name="author" id="author" value="${board.author}">
