@@ -15,6 +15,10 @@ public class BoardService {
 		// board 반환
 		return boardDAO.view(boardVO.getBno());
 	}
+	
+	public BoardVO fetchUpdateFormData(BoardVO boardVO) {
+		return boardDAO.view(boardVO.getBno());
+	}
 
 	public int delete(BoardVO boardVO) {
 		return boardDAO.delete(boardVO.getBno());

@@ -76,7 +76,7 @@ public class BoardController {
 
 	public String updateForm(HttpServletRequest request, BoardVO boardVO) {
 		// 게시글 정보
-		BoardVO board = boardService.view(boardVO);
+		BoardVO board = boardService.fetchUpdateFormData(boardVO);
 		request.setAttribute("board", board);
 		return "boardUpdate";
 	}
