@@ -48,7 +48,6 @@ public class LoginFilter extends HttpFilter implements Filter {
 	}
 
 	public void init(FilterConfig fConfig) throws ServletException {
-		// TODO Auto-generated method stub
 	}
 
 }
