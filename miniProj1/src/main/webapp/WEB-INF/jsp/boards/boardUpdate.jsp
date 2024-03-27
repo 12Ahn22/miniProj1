@@ -12,7 +12,10 @@
 	<jsp:include page="../layout/layoutHeader.jsp"/>
 	<main>
 		<h2>게시물 수정</h2>
-		<form>
+		<form id="uForm">
+			<input type="hidden" name="bno" id="bno" value="${board.bno}">
+			<input type="hidden" name="action" value="update">
+			<input type="hidden" name="author" id="author" value="${board.author}">
 			<label for="title">제목:</label><br>
 			<input type="text" id="title" name="title" value="${board.title}"><br>
 			<label for="content">내용:</label><br>
@@ -21,5 +24,33 @@
 			<a href="board?action=view&bno=${board.bno}">취소</a>
 	</form>
 	</main>
+	<script>
+		const uForm = document.getElementById("uForm");
+		uForm.addEventListener("submit",(e)=>{
+			e.preventDefault();
+			const param = {
+				bno:bno.value,
+				action:"update",
+				author:author.value,
+				title:title.value,
+				content:content.value
+			};
+
+			fetch("board", {
+								method: "POST",
+								body: JSON.stringify(param),
+								headers: { "Content-type": "application/json; charset=utf-8" }
+							}).then((res) => res.json())
+								.then((data) => {
+								if (data.status === 204) {
+									alert("게시글 수정에 성공했습니다.");
+									// 페이지 리다이렉트
+									location = "board?action=view&bno=" + bno.value;
+								} else {
+									alert(data.statusMessage);
+								}
+							});
+		});
+	</script>
 </body>
 </html>
