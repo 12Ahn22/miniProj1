@@ -1,8 +1,8 @@
 package com.miniproj1.baseDAO;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
 
 
 /**
@@ -10,17 +10,16 @@ import java.sql.SQLException;
  */
 public class BaseDAO {
 	public static Connection conn = null;
-	
 	static {
 		try {
-			// 1. 클래스를 로드
-			Class.forName("org.mariadb.jdbc.Driver");
-			// 2. 데이터베이스와 연결
-			conn = DriverManager.getConnection( //
-					"jdbc:mariadb://localhost:3306/miniproj_db", // 
-					"bituser", "1004");
+			// Connection Pool을 사용한다.
+			InitialContext ic= new InitialContext();
+			//2. lookup()
+			DataSource ds = (DataSource) ic.lookup("java:comp/env/jdbc/mini_proj1_db");
+			//3. getConnection()
+			conn = ds.getConnection();
 			System.out.println("MariaDB 연결 성공");
-		} catch (ClassNotFoundException | SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
