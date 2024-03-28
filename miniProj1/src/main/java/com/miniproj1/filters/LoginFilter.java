@@ -41,6 +41,27 @@ public class LoginFilter extends HttpFilter implements Filter {
 				res.sendRedirect(req.getContextPath() + "/"); // 리다이렉트
 				return;
 			}
+			
+			// updateForm
+			if(action != null && action.equals("updateForm")) {
+				if(loginMember == null) {
+					res.sendRedirect(req.getContextPath() + "/"); // 리다이렉트
+					return;
+				}
+			}
+		}
+		
+		if(action != null && uri.contains("board")) {
+			// insertForm
+			if(loginMember == null && action.equals("insertForm")) {
+				res.sendRedirect(req.getContextPath() + "/"); // 리다이렉트
+				return;
+			}
+			// updateForm
+			if(loginMember == null && action.equals("updateForm")) {
+				res.sendRedirect(req.getContextPath() + "/"); // 리다이렉트
+				return;
+			}
 		}
 		chain.doFilter(request, response);
 	}
