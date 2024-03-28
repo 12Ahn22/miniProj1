@@ -42,7 +42,7 @@
 					</div>
 					<div>
 						<label>성별:</label>
-						<input type="radio" id="female" name="gender" value="female">
+						<input type="radio" id="female" name="gender" value="female" checked>
 						<label for="female">여성</label>
 						<input type="radio" id="male" name="gender" value="male">
 						<label for="male">남성</label>
