@@ -35,8 +35,6 @@ public class LoginFilter extends HttpFilter implements Filter {
 		String action = req.getParameter("action");
 		String uri = req.getRequestURI();
 		
-		System.out.println("URI" + uri);
-		
 		if(action != null && uri.contains("member")) {
 			// 이미 로그인을 한 상태인데 다시 로그인 페이지로 접근한 경우
 			if(loginMember != null && action.equals("loginForm")) {

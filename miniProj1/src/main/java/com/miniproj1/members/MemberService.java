@@ -71,7 +71,6 @@ public class MemberService {
 	public int insert(MemberVO member) {
 		// 멤버를 먼저 생성
 		int updated = memberDAO.insert(member);
-		System.out.println("에러나면 updated는 뭐가 된거지" + updated);
 
 		// 취미-멤버 테이블에 데이터 생성
 		Map<Integer, String> hobbies = member.getHobbies();
