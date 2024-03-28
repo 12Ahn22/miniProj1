@@ -39,9 +39,11 @@ public class MemberService {
 
 		// 받은 취미를 전부 insert
 		Map<Integer, String> hobbies = member.getHobbies();
-		for (var hobby : hobbies.entrySet()) {
-			// 실패 처리를 어떻게 해야할까?
-			memberHobbyDAO.insert(member.getId(), hobby.getKey());
+		if (hobbies != null) {
+			for (var hobby : hobbies.entrySet()) {
+				// 실패 처리를 어떻게 해야할까?
+				memberHobbyDAO.insert(member.getId(), hobby.getKey());
+			}
 		}
 		// 멤버 수정 사항 업데이트
 		int updated = memberDAO.update(member);
