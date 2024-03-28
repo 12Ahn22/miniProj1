@@ -36,8 +36,8 @@ public class AdminFilter extends HttpFilter implements Filter {
 		String action = req.getParameter("action");
 		String uri = req.getRequestURI();
 		
-		if(uri.contains("member")) {
-			if(action != null && action.equals("list")) {
+		if(action != null && uri.contains("member")) {
+			if(action.equals("list")) {
 				// 로그인 여부와 관리자 여부
 				if(loginMember == null || !loginMember.getId().equals("ADMIN")) {
 					res.sendRedirect(req.getContextPath() + "/"); // 리다이렉트
