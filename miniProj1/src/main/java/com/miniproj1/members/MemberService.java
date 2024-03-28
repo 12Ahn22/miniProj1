@@ -1,5 +1,7 @@
 package com.miniproj1.members;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,6 +9,8 @@ import java.util.Map;
 import com.miniproj1.hobbies.HobbyDAO;
 import com.miniproj1.hobbies.HobbyVO;
 import com.miniproj1.memberhobby.MemberHobbyDAO;
+
+import dao.BaseDAO;
 
 public class MemberService {
 	MemberDAO memberDAO = new MemberDAO(); // 유저 정보
@@ -19,7 +23,7 @@ public class MemberService {
 		return list;
 	}
 
-	public MemberVO view(MemberVO member) {
+	public MemberVO view(MemberVO member) throws Exception {
 		MemberVO memberVO = memberDAO.view(member);
 		Map<Integer, String> hobbies = memberDAO.getMemberHobbies(member);
 		if (hobbies.size() != 0)
@@ -34,17 +38,31 @@ public class MemberService {
 
 	// 나중에 트랜잭션 처리를 해야하는 걸까..?
 	public int update(MemberVO member) {
-		// 멤버-취미 테이블에서 해당 멤버를 전부 삭제
-		memberHobbyDAO.deleteAll(member.getId());
-
-		// 받은 취미를 전부 insert
-		Map<Integer, String> hobbies = member.getHobbies();
-		for (var hobby : hobbies.entrySet()) {
-			// 실패 처리를 어떻게 해야할까?
-			memberHobbyDAO.insert(member.getId(), hobby.getKey());
+		Connection conn = BaseDAO.conn;
+		int updated = 0;
+		try {
+			conn.setAutoCommit(false);
+			// 멤버-취미 테이블에서 해당 멤버를 전부 삭제
+			memberHobbyDAO.deleteAll(member.getId());
+	
+			// 받은 취미를 전부 insert
+			Map<Integer, String> hobbies = member.getHobbies();
+			for (var hobby : hobbies.entrySet()) {
+				// 실패 처리를 어떻게 해야할까?
+				memberHobbyDAO.insert(member.getId(), hobby.getKey());
+			}
+			// 멤버 수정 사항 업데이트
+			updated = memberDAO.update(member);
+			conn.commit();
+		} catch (Exception e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
 		}
-		// 멤버 수정 사항 업데이트
-		int updated = memberDAO.update(member);
 		return updated;
 	}
 

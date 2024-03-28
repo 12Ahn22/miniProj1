@@ -1,7 +1,5 @@
 package com.miniproj1.members;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,9 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MemberDAO {
-	// 공유해 사용하기 위해 static으로 설정
-	private static Connection conn = null;
+import dao.BaseDAO;
+
+public class MemberDAO extends BaseDAO {
 	
 	private static PreparedStatement listPs = null;
 	private static PreparedStatement viewPs = null;
@@ -30,22 +28,6 @@ public class MemberDAO {
 	private static String insertSQL = "insert into tb_members (id, name, password, address, phone, gender) values(?,?,?,?,?,?)";
 	private static String authenticateSQL = "select id from tb_members where id=? and password = ?";
 	
-	static {
-		try {
-			// 1. 클래스를 로드
-			Class.forName("org.mariadb.jdbc.Driver");
-			
-			// 2. 데이터베이스와 연결
-			conn = DriverManager.getConnection( //
-					"jdbc:mariadb://localhost:3306/miniproj_db", // 
-					"bituser", "1004");
-			
-			System.out.println("MariaDB 연결 성공");
-		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
 	public List<MemberVO> list() {
 		ResultSet rs = null;
 		List<MemberVO> list = new ArrayList<>();
@@ -70,27 +52,23 @@ public class MemberDAO {
 		return list;
 	}
 
-	public MemberVO view(MemberVO member) {
+	public MemberVO view(MemberVO member) throws Exception {
 		ResultSet rs = null;
 		MemberVO viewMember = null;
-		try {
-			viewPs = conn.prepareStatement(viewSQL);
-			viewPs.setString(1, member.getId());
-			rs = viewPs.executeQuery();
-			
-			if(rs.next()) {
-				viewMember = new MemberVO(
-						rs.getString("id"),
-						rs.getString("name"),
-						rs.getString("address"),
-						rs.getString("phone"),
-						rs.getString("gender")
-					);
-			}
-			rs.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
+		viewPs = conn.prepareStatement(viewSQL);
+		viewPs.setString(1, member.getId());
+		rs = viewPs.executeQuery();
+		
+		if(rs.next()) {
+			viewMember = new MemberVO(
+					rs.getString("id"),
+					rs.getString("name"),
+					rs.getString("address"),
+					rs.getString("phone"),
+					rs.getString("gender")
+				);
 		}
+		rs.close();
 		
 		return viewMember;
 	}
