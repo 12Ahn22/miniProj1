@@ -35,11 +35,30 @@ public class LoginFilter extends HttpFilter implements Filter {
 		String action = req.getParameter("action");
 		String uri = req.getRequestURI();
 		
-		System.out.println("URI" + uri);
-		
 		if(action != null && uri.contains("member")) {
 			// 이미 로그인을 한 상태인데 다시 로그인 페이지로 접근한 경우
 			if(loginMember != null && action.equals("loginForm")) {
+				res.sendRedirect(req.getContextPath() + "/"); // 리다이렉트
+				return;
+			}
+			
+			// updateForm
+			if(action != null && action.equals("updateForm")) {
+				if(loginMember == null) {
+					res.sendRedirect(req.getContextPath() + "/"); // 리다이렉트
+					return;
+				}
+			}
+		}
+		
+		if(action != null && uri.contains("board")) {
+			// insertForm
+			if(loginMember == null && action.equals("insertForm")) {
+				res.sendRedirect(req.getContextPath() + "/"); // 리다이렉트
+				return;
+			}
+			// updateForm
+			if(loginMember == null && action.equals("updateForm")) {
 				res.sendRedirect(req.getContextPath() + "/"); // 리다이렉트
 				return;
 			}

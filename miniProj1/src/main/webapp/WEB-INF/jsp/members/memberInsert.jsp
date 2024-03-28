@@ -26,8 +26,6 @@
 					<div>
 						<label for="password">비밀번호:</label>
 						<input type="password" id="password" name="password" required>
-					</div>
-					<div>
 						<label for="password2">비밀번호확인:</label>
 						<!-- 서버로 보내지 않을 내용은 name을 써주지않는다. -->
 						<input type="password" id="password2" required>
@@ -42,7 +40,7 @@
 					</div>
 					<div>
 						<label>성별:</label>
-						<input type="radio" id="female" name="gender" value="female">
+						<input type="radio" id="female" name="gender" value="female" checked>
 						<label for="female">여성</label>
 						<input type="radio" id="male" name="gender" value="male">
 						<label for="male">남성</label>
@@ -60,13 +58,16 @@
 			</main>
 			<script type="text/javascript" src="<c:url value='/js/common.js'/>"></script>
 			<script>
-
-
-
 				// 업데이트 요청을 보내는 이벤트 리스너
 				const rForm = document.getElementById("rForm");
 				rForm.addEventListener("submit", (e) => {
 				e.preventDefault();
+
+					// 유효성 검사
+					if(!validateSamePassword(password, password2 ,()=>{password.focus()})) return;
+
+					// 전화번호는 XXX-XXXX-XXXX 형식으로만 입력받음
+					if(!validatePhoneNumber(phone, ()=>{phone.focus()})) return;
 
 					fetch("member", {
 						method: "POST",
