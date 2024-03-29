@@ -36,7 +36,7 @@ public class BoardServlet extends HttpServlet {
 	private void doService(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		BoardController boardController = new BoardController();
-		
+
 		// 한글 설정
 		request.setCharacterEncoding("utf-8");
 		// 요청 데이터와 VO객체 매핑을 위한 objectMapper
@@ -46,7 +46,7 @@ public class BoardServlet extends HttpServlet {
 		// 둘 다, 넘어온 데이터를 VO와 매핑 시켜야함
 		BoardVO boardVO = null;
 
-		if (contentType == null || contentType.startsWith("application/x-www-form-urlencoded")) { 
+		if (contentType == null || contentType.startsWith("application/x-www-form-urlencoded")) {
 			// 파라미터를 MemberVO와 매핑
 			// request.getParameterMap()는 Map<String,String[]>를 반환하기 때문에
 			// 이것을 Map<String,Object>으로 변환해줘야한다.
@@ -56,7 +56,9 @@ public class BoardServlet extends HttpServlet {
 			boardVO = objectMapper.readValue(request.getInputStream(), BoardVO.class);
 		}
 
-		Object result = switch (boardVO.getAction()) {
+		Object result = "notFound";
+		try {
+			result = switch (boardVO.getAction()) {
 			case "list" -> boardController.list(request, boardVO);
 			case "view" -> boardController.view(request, boardVO);
 			case "delete" -> boardController.delete(request, boardVO);
@@ -65,8 +67,12 @@ public class BoardServlet extends HttpServlet {
 			case "insertForm" -> boardController.insertForm(request);
 			case "insert" -> boardController.insert(request, boardVO);
 			default -> "notFound";
-		};
-		
+			};
+		} catch (Exception e) {
+			result = "error";
+			e.printStackTrace();
+		}
+
 		// 응답 부분 정리
 		// 1. map인 경우 2.JSP페이지인 경우
 		if (result.getClass() == String.class) {
@@ -77,7 +83,7 @@ public class BoardServlet extends HttpServlet {
 			} else {
 				RequestDispatcher rd = null;
 				// JSP 페이지를 응답으로 전달
-				if (result.equals("notFound"))
+				if (result.equals("notFound") || result.equals("error"))
 					rd = request.getRequestDispatcher("/WEB-INF/jsp/" + result + ".jsp");
 				else
 					rd = request.getRequestDispatcher("/WEB-INF/jsp/boards/" + result + ".jsp");

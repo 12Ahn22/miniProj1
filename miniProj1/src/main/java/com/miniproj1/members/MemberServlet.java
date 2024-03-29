@@ -60,20 +60,26 @@ public class MemberServlet extends HttpServlet {
 		}
 
 		// 매핑한 VO를 사용해 요청을 처리
-		Object result = switch (memberVO.getAction()) {
-		case "list" -> memberController.list(request); // page
-		case "insertForm" -> memberController.fetchInsertFormData(request); // page
-		case "updateForm" -> memberController.fetchUpdateFormData(request, memberVO); // page
-		case "view" -> memberController.view(request, memberVO); // page
-		case "profile" -> memberController.profile(request); // page
-		case "loginForm" -> "login"; // page
-		case "insert" -> memberController.insert(request, memberVO);
-		case "update" -> memberController.update(request, memberVO);
-		case "login" -> memberController.login(request, memberVO);
-		case "logout" -> memberController.logout(request);
-		case "delete" -> memberController.delete(request, memberVO);
-		default -> "notFound"; // page
-		};
+		Object result = "error";
+		try {
+			result = switch (memberVO.getAction()) {
+			case "list" -> memberController.list(request); // page
+			case "insertForm" -> memberController.fetchInsertFormData(request); // page
+			case "updateForm" -> memberController.fetchUpdateFormData(request, memberVO); // page
+			case "view" -> memberController.view(request, memberVO); // page
+			case "profile" -> memberController.profile(request); // page
+			case "loginForm" -> "login"; // page
+			case "insert" -> memberController.insert(request, memberVO);
+			case "update" -> memberController.update(request, memberVO);
+			case "login" -> memberController.login(request, memberVO);
+			case "logout" -> memberController.logout(request);
+			case "delete" -> memberController.delete(request, memberVO);
+			default -> "notFound"; // page
+			};
+		} catch (Exception e) {
+			result = "error";
+			e.printStackTrace();
+		}
 
 		// 응답 부분 정리
 		// 1. map인 경우 2.JSP페이지인 경우
@@ -85,7 +91,7 @@ public class MemberServlet extends HttpServlet {
 			} else {
 				RequestDispatcher rd = null;
 				// JSP 페이지를 응답으로 전달
-				if (result.equals("notFound"))
+				if (result.equals("notFound") || result.equals("error"))
 					rd = request.getRequestDispatcher("/WEB-INF/jsp/" + result + ".jsp");
 				else
 					rd = request.getRequestDispatcher("/WEB-INF/jsp/members/" + result + ".jsp");

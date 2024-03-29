@@ -16,13 +16,9 @@ public class MemberService {
 	HobbyDAO hobbyDAO = new HobbyDAO(); // 취미
 	MemberHobbyDAO memberHobbyDAO = new MemberHobbyDAO(); // 멤버-취미 관계
 
-	public List<MemberVO> list() {
+	public List<MemberVO> list() throws SQLException {
 		List<MemberVO> list = null;
-		try {
-			list = memberDAO.list();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		list = memberDAO.list();
 		return list;
 	}
 

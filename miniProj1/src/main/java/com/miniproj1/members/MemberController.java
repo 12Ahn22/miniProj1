@@ -12,7 +12,7 @@ import com.miniproj1.hobbies.HobbyVO;
 public class MemberController {
 	MemberService memberService = new MemberService();
 
-	public String list(HttpServletRequest request) {
+	public String list(HttpServletRequest request) throws Exception {
 		// 서비스를 호출한다.
 		List<MemberVO> list = memberService.list();
 
@@ -132,7 +132,14 @@ public class MemberController {
 		// 성공
 		if (memberService.authenticateMember(member)) {
 			HttpSession session = request.getSession();
+			
 			MemberVO viewMember = memberService.view(member);
+			if(viewMember == null) {
+				map.put("status", 500);
+				map.put("statusMessage", "로그인에 실패했습니다.");
+				return map;
+			}
+			
 			session.setAttribute("loginMember", viewMember);
 			session.setMaxInactiveInterval(30 * 60 * 1000); // 30분
 			map.put("status", 204);
