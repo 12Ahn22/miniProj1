@@ -20,6 +20,11 @@ public class MemberVO {
 	private Gender gender;
 	private Map<Integer, String> hobbies; // 모든 취미
 	
+	// 자동 로그인을 위한 UUID
+	private String memberUUID; 
+	// 자동로그인 체크 여부
+	private String autoLogin;
+	
 	// 요청 처리를 위한 필드
 	private String action;
 	

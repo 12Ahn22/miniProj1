@@ -17,6 +17,8 @@ public class MemberDAO extends BaseDAO{
 	private static PreparedStatement updatePs = null;
 	private static PreparedStatement insertPs = null;
 	private static PreparedStatement authenticatePs = null;
+	private static PreparedStatement updateUUIDPs = null;
+	private static PreparedStatement getMemberFromUUIDPs = null;
 	
 	private static String listSQL = "select id, name, address, phone, gender from tb_members";
 	private static String viewSQL = "select id, name, address, phone, gender from tb_members where id = ?";
@@ -25,6 +27,8 @@ public class MemberDAO extends BaseDAO{
 	private static String updateSQL = "update tb_members set name = ?, password = ?, address = ?, phone = ? where id = ?";
 	private static String insertSQL = "insert into tb_members (id, name, password, address, phone, gender) values(?,?,?,?,?,?)";
 	private static String authenticateSQL = "select id from tb_members where id=? and password = ?";
+	private static String updateUUIDSQL = "update tb_members set memberUUID = ? where id = ?";
+	private static String getMemberFromUUIDSQL = "select id, name, address, phone, gender from tb_members where memberUUID = ?";
 
 	public List<MemberVO> list() throws SQLException {
 		ResultSet rs = null;
@@ -129,5 +133,37 @@ public class MemberDAO extends BaseDAO{
 		}
 		authenticatePs.close();
 		return false;
+	}
+
+	public int updateUUID(MemberVO member) throws SQLException {
+		int updated = 0;
+		
+		updateUUIDPs = conn.prepareStatement(updateUUIDSQL);
+		updateUUIDPs.setString(1, member.getMemberUUID());
+		updateUUIDPs.setString(2, member.getId());
+		updated =  updateUUIDPs.executeUpdate();
+		updateUUIDPs.close();
+		return updated;
+	}
+
+	public MemberVO getMemberFromUUID(MemberVO member) throws SQLException {
+		ResultSet rs = null;
+		MemberVO viewMember = null;
+		getMemberFromUUIDPs = conn.prepareStatement(getMemberFromUUIDSQL);
+		getMemberFromUUIDPs.setString(1, member.getMemberUUID());
+		rs = getMemberFromUUIDPs.executeQuery();
+		
+		if(rs.next()) {
+			viewMember = new MemberVO(
+					rs.getString("id"),
+					rs.getString("name"),
+					rs.getString("address"),
+					rs.getString("phone"),
+					rs.getString("gender")
+				);
+		}
+		rs.close();
+		getMemberFromUUIDPs.close();
+		return viewMember;
 	}
 }

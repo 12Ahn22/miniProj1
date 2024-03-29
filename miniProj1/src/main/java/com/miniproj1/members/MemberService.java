@@ -139,4 +139,20 @@ public class MemberService {
 		}
 		return hasAuth;
 	}
+
+	public int updateUUID(MemberVO member) {
+		try {
+			memberDAO.updateUUID(member);
+			BaseDAO.conn.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				BaseDAO.conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			return 0;
+		}
+		return 1;
+	}
 }

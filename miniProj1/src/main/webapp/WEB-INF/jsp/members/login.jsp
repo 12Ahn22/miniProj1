@@ -24,6 +24,11 @@
 						<input type="password" id="password" name="password" required>
 					</div>
 					<input type="submit" value="로그인">
+					<div>
+						<label for="autoLogin">자동로그인체크</label>
+						<!-- 체크박스가 하나인 경우 -->
+						<input type="checkbox" data-single="true" name="autoLogin" value="Y">
+					</div>
 				</form>
 			</main>
 			<script type="text/javascript" src="<c:url value='/js/common.js'/>"></script>
@@ -31,7 +36,6 @@
 				const loginForm = document.getElementById("loginForm");
 				loginForm.addEventListener("submit", (e) => {
 					e.preventDefault();
-
 					fetch("member", {
 						method: "POST",
 						body: formToSerialize("loginForm"),

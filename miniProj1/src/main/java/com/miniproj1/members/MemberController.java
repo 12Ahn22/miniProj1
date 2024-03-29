@@ -4,9 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
+import java.util.UUID;
 import com.miniproj1.hobbies.HobbyVO;
 
 public class MemberController {
@@ -122,7 +124,7 @@ public class MemberController {
 		return map;
 	}
 
-	public Map<String, Object> login(HttpServletRequest request, MemberVO member) {
+	public Map<String, Object> login(HttpServletRequest request, HttpServletResponse response, MemberVO member) {
 		Map<String, Object> map = new HashMap<>();
 
 		// 성공
@@ -134,6 +136,27 @@ public class MemberController {
 				map.put("status", 500);
 				map.put("statusMessage", "로그인에 실패했습니다.");
 				return map;
+			}
+			
+			// 자동 로그인 체크를 한 경우, 쿠키를 저장해 전달.
+			if(member.getAutoLogin() != null && member.getAutoLogin().equals("Y")) { // 자동 로그인 체크를 한 요청인 경우
+				// UUID 생성
+				String uuid = UUID.randomUUID().toString();
+				member.setMemberUUID(uuid);
+				
+				// 해당 UUID를 유저 데이터에 저장
+				if(memberService.updateUUID(member) == 0) {
+					map.put("status", 404);
+					map.put("statusMessage", "자동 로그인 설정에 실패했습니다.");
+					return map;
+				}
+				
+				// 해당 UUID 값을 쿠키로 반환
+				Cookie uuidCookie = new Cookie("uuidCookie", uuid);
+				uuidCookie.setMaxAge(24 * 60 * 60); //24시간
+				uuidCookie.setPath("/");
+
+				response.addCookie(uuidCookie);
 			}
 			
 			session.setAttribute("loginMember", viewMember);
@@ -149,6 +172,11 @@ public class MemberController {
 
 	public String logout(HttpServletRequest request) {
 		HttpSession session = request.getSession();
+		// 세션에서 로그인 정보 얻기
+		MemberVO loginMember = (MemberVO) session.getAttribute("loginMember");
+		loginMember.setMemberUUID("");
+		memberService.updateUUID(loginMember);
+		// 세션 삭제
 		session.removeAttribute("loginMember");
 		session.invalidate();
 
