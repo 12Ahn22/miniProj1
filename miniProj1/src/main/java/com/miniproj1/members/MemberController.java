@@ -116,7 +116,6 @@ public class MemberController {
 
 	public Map<String, Object> insert(HttpServletRequest request, MemberVO member) {
 		Map<String, Object> map = new HashMap<>();
-
 		int updated = memberService.insert(member);
 		if (updated == 1) { // 성공
 			map.put("status", 204);
