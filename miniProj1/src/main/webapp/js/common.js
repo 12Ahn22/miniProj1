@@ -1,7 +1,3 @@
-/**
- * 
- */
-
 const formToSerialize = (formId) => JSON.stringify([].reduce.call(document.getElementById(formId), (data, element) => {
 	//이름이 있는 것을 대상으로함 
 	if (element.name === '') return data; // name없는 거 무시
@@ -25,10 +21,16 @@ const formToSerialize = (formId) => JSON.stringify([].reduce.call(document.getEl
 		if (element.checked) { // 체크된 요소만 전송
 			if (typeof data[element.name] === 'undefined') {
 				data[element.name] = {};
+				// id가 없는 경우를 
+				if(element.dataset.single){
+					data[element.name] = element.value;
+					return data;
+				}
 				data[element.name][element.id] = element.value;
 			} else {
 				data[element.name][element.id] = element.value;
-			}}
+			}
+		}
 	}
 	else {
 		//그외는 모두 대상으로 함 
@@ -44,8 +46,8 @@ const formToSerialize = (formId) => JSON.stringify([].reduce.call(document.getEl
  * 유효성 검사
  */
 
-const validateSamePassword = (password, password2, cb)=>{
-	if(password.value !== password2.value){
+const validateSamePassword = (password, password2, cb) => {
+	if (password.value !== password2.value) {
 		alert("비밀번호와 비밀번호 확인 값이 다릅니다.");
 		cb();
 		return false;
@@ -53,9 +55,9 @@ const validateSamePassword = (password, password2, cb)=>{
 	return true;
 }
 
-const validatePhoneNumber = (phone, cb)=>{
+const validatePhoneNumber = (phone, cb) => {
 	const phoneRegex = /\d{3}-\d{4}-\d{4}/;
-	if(!phoneRegex.test(phone.value)){
+	if (!phoneRegex.test(phone.value)) {
 		alert("010-XXXX-XXXX 형식으로 작성해주세요");
 		cb();
 		return false;
