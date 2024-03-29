@@ -37,6 +37,7 @@ public class MemberService {
 
 	public int delete(MemberVO member) {
 		try {
+			memberDAO.delete(member);
 			BaseDAO.conn.commit();
 		} catch (Exception e) {
 			try {
