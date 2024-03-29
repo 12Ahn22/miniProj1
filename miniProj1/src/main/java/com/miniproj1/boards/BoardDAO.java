@@ -22,108 +22,82 @@ public class BoardDAO extends BaseDAO {
 	private static String updateSQL = "update tb_boards set title = ?, content = ? where bno = ?";
 	private static String insertSQL = "insert into tb_boards (title, content, author) values(?,?,?)";
 	
-	public List<BoardVO> list(String searchKey) {
+	public List<BoardVO> list(String searchKey) throws SQLException {
 		ResultSet rs = null;
 		List<BoardVO> list = new ArrayList<>();
+		listPs = conn.prepareStatement(listSQL);
+		if(searchKey == null) {
+			listPs.setString(1, "%");
+		} else listPs.setString(1, "%" + searchKey + "%");
+		rs = listPs.executeQuery();
 		
-		try {
-			listPs = conn.prepareStatement(listSQL);
-			if(searchKey == null) {
-				listPs.setString(1, "%");
-			} else listPs.setString(1, "%" + searchKey + "%");
-			rs = listPs.executeQuery();
-			
-			while(rs.next()) {
-				list.add(new BoardVO(
-							rs.getInt("bno"),
-							rs.getString("title"),
-							rs.getString("author"),
-							rs.getString("content"),
-							rs.getString("created_at"),
-							rs.getInt("view_count")
-						));
-			}
-			rs.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
+		while(rs.next()) {
+			list.add(new BoardVO(
+						rs.getInt("bno"),
+						rs.getString("title"),
+						rs.getString("author"),
+						rs.getString("content"),
+						rs.getString("created_at"),
+						rs.getInt("view_count")
+					));
 		}
+		rs.close();
 		return list;
 	}
 
-	public BoardVO view(Integer bno) {
+	public BoardVO view(Integer bno) throws SQLException {
 		ResultSet rs = null;
 		BoardVO board = null;
-		
-		try {
-			viewPs = conn.prepareStatement(viewSQL);
-			viewPs.setInt(1, bno);
-			rs = viewPs.executeQuery();
-			if(rs.next()) {
-				board = new BoardVO(
-							rs.getInt("bno"),
-							rs.getString("title"),
-							rs.getString("author"),
-							rs.getString("content"),
-							rs.getString("created_at"),
-							rs.getInt("view_count")
-						);
-			}
-			rs.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
+		viewPs = conn.prepareStatement(viewSQL);
+		viewPs.setInt(1, bno);
+		rs = viewPs.executeQuery();
+		if(rs.next()) {
+			board = new BoardVO(
+						rs.getInt("bno"),
+						rs.getString("title"),
+						rs.getString("author"),
+						rs.getString("content"),
+						rs.getString("created_at"),
+						rs.getInt("view_count")
+					);
 		}
+		rs.close();
 		return board;
 	}
 
-	public int increaseViewCount(Integer bno) {
+	public int increaseViewCount(Integer bno) throws SQLException {
 		int updated = 0;
-		try {
-			increaseViewCountPs = conn.prepareStatement(increaseViewCountSQL);
-			increaseViewCountPs.setInt(1, bno);
-			updated = increaseViewCountPs.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		increaseViewCountPs = conn.prepareStatement(increaseViewCountSQL);
+		increaseViewCountPs.setInt(1, bno);
+		updated = increaseViewCountPs.executeUpdate();
 		return updated;
 	}
 
-	public int delete(Integer bno) {
+	public int delete(Integer bno) throws SQLException {
 		int updated = 0;
-		try {
-			deletePs = conn.prepareStatement(deleteSQL);
-			deletePs.setInt(1, bno);
-			updated = deletePs.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		deletePs = conn.prepareStatement(deleteSQL);
+		deletePs.setInt(1, bno);
+		updated = deletePs.executeUpdate();
 		return updated;
 	}
 
-	public int update(BoardVO boardVO) {
+	public int update(BoardVO boardVO) throws SQLException {
 		int updated = 0;
-		try {
-			updatePs = conn.prepareStatement(updateSQL);
-			updatePs.setString(1, boardVO.getTitle());
-			updatePs.setString(2, boardVO.getContent());
-			updatePs.setInt(3, boardVO.getBno());
-			updated = updatePs.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		updatePs = conn.prepareStatement(updateSQL);
+		updatePs.setString(1, boardVO.getTitle());
+		updatePs.setString(2, boardVO.getContent());
+		updatePs.setInt(3, boardVO.getBno());
+		updated = updatePs.executeUpdate();
 		return updated;
 	}
 
-	public int insert(BoardVO boardVO) {
+	public int insert(BoardVO boardVO) throws SQLException {
 		int updated = 0;
-		try {
-			insertPs = conn.prepareStatement(insertSQL);
-			insertPs.setString(1, boardVO.getTitle());
-			insertPs.setString(2, boardVO.getContent());
-			insertPs.setString(3, boardVO.getAuthor());
-			updated = insertPs.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		insertPs = conn.prepareStatement(insertSQL);
+		insertPs.setString(1, boardVO.getTitle());
+		insertPs.setString(2, boardVO.getContent());
+		insertPs.setString(3, boardVO.getAuthor());
+		updated = insertPs.executeUpdate();
 		return updated;
 	}
 
