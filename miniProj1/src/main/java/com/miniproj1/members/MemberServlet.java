@@ -72,6 +72,7 @@ public class MemberServlet extends HttpServlet {
 			case "login" -> memberController.login(request, response, memberVO);
 			case "logout" -> memberController.logout(request);
 			case "delete" -> memberController.delete(request, memberVO);
+			case "checkDuplicateId" -> memberController.checkDuplicateId(request, memberVO);
 			default -> "notFound"; // page
 			};
 		} catch (Exception e) {

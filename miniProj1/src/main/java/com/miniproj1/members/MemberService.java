@@ -155,4 +155,15 @@ public class MemberService {
 		}
 		return 1;
 	}
+
+	public MemberVO checkDuplicateId(MemberVO member) {
+		MemberVO viewMember = null;
+		try {
+			viewMember = memberDAO.view(member);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+		return viewMember;
+	}
 }

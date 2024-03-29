@@ -190,4 +190,17 @@ public class MemberController {
 		request.setAttribute("member", viewMember);
 		return "memberProfile";
 	}
+
+	public Map<String, Object> checkDuplicateId(HttpServletRequest request, MemberVO member) {
+		Map<String, Object> map = new HashMap<>();
+		
+		MemberVO searchMember = memberService.checkDuplicateId(member);
+		if(searchMember == null) {
+			map.put("status", 204);
+		}else {
+			map.put("status", 404);
+			map.put("statusMessage", "해당 아이디는 이미 사용중입니다.");
+		}
+		return map;
+	}
 }

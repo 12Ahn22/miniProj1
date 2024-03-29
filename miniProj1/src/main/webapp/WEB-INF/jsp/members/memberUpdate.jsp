@@ -7,56 +7,59 @@
 			<meta charset="UTF-8">
 			<meta name="viewport" content="width=device-width, initial-scale=1.0">
 			<title>RATTY | 회원 수정</title>
+			<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 		</head>
 
 		<body>
-			<jsp:include page="../layout/layoutHeader.jsp" />
-			<main>
-				<h1>회원 수정</h1>
-				<form id="uForm">
-					<h2>${member.id}</h2>
-					<input type="hidden" name="id" value="${member.id}" />
-					<input type="hidden" name="action" value="update" />
-					<div>
-						<label for="name">이름:</label>
-						<input type="text" id="name" name="name" required value="${member.name}">
-					</div>
-					<div>
-						<label for="password">비밀번호:</label>
-						<input type="password" id="password" name="password" required>
-						<label for="password2">비밀번호확인:</label>
-						<!-- 서버로 보내지 않을 내용은 name을 써주지않는다. -->
-						<input type="password" id="password2" required>
-					</div>
-					<div>
-						<label for="phone">전화번호:</label>
-						<input type="tel" id="phone" name="phone" required value="${member.phone}">
-					</div>
-					<div>
-						<label for="address">주소:</label>
-						<input type="text" id="address" name="address" required value="${member.address}">
-					</div>
-					<div>
-						<label>성별:</label>
-						<input type="radio" id="female" name="gender" value="female" ${member.gender.equals('female') ? 'checked'
-							:''} disabled>
-						<label for="female">여성</label>
-						<input type="radio" id="male" name="gender" value="male" ${member.gender.equals('female') ? '' :'checked'}
-							disabled>
-						<label for="male">남성</label>
-					</div>
-					<div>
-						<label>취미:</label>
-						<c:forEach var="hobby" items="${hobbyList}">
-							<input type="checkbox" id="${hobby.id}" name="hobbies" value="${hobby.id}:${hobby.hobby}" ${member.hobbies[hobby.id]
-								!=null ? 'checked' : '' }>
-							<label for="${hobby.id}">${hobby.hobby}</label>
-						</c:forEach>
-					</div>
-					<button type="submit">수정</button>
-					<a href="member?action=view&id=${member.id}">취소</a>
-				</form>
-			</main>
+			<div class="container">
+				<jsp:include page="../layout/layoutHeader.jsp" />
+				<main>
+					<h1>회원 수정</h1>
+					<form id="uForm">
+						<h2>${member.id}</h2>
+						<input type="hidden" name="id" value="${member.id}" />
+						<input type="hidden" name="action" value="update" />
+						<div>
+							<label for="name">이름:</label>
+							<input type="text" id="name" name="name" required value="${member.name}">
+						</div>
+						<div>
+							<label for="password">비밀번호:</label>
+							<input type="password" id="password" name="password" required>
+							<label for="password2">비밀번호확인:</label>
+							<!-- 서버로 보내지 않을 내용은 name을 써주지않는다. -->
+							<input type="password" id="password2" required>
+						</div>
+						<div>
+							<label for="phone">전화번호:</label>
+							<input type="tel" id="phone" name="phone" required value="${member.phone}">
+						</div>
+						<div>
+							<label for="address">주소:</label>
+							<input type="text" id="address" name="address" required value="${member.address}">
+						</div>
+						<div>
+							<label>성별:</label>
+							<input type="radio" id="female" name="gender" value="female" ${member.gender.equals('female') ? 'checked'
+								:''} disabled>
+							<label for="female">여성</label>
+							<input type="radio" id="male" name="gender" value="male" ${member.gender.equals('female') ? '' :'checked'}
+								disabled>
+							<label for="male">남성</label>
+						</div>
+						<div>
+							<label>취미:</label>
+							<c:forEach var="hobby" items="${hobbyList}">
+								<input type="checkbox" id="${hobby.id}" name="hobbies" value="${hobby.id}:${hobby.hobby}" ${member.hobbies[hobby.id]
+									!=null ? 'checked' : '' }>
+								<label for="${hobby.id}">${hobby.hobby}</label>
+							</c:forEach>
+						</div>
+						<button class="btn btn-primary" type="submit">수정</button>
+						<a class="btn btn-secondary" href="member?action=view&id=${member.id}">취소</a>
+					</form>
+				</main>
+			</div>
 			<script type="text/javascript" src="<c:url value='/js/common.js'/>"></script>
 			<script>
 				// 업데이트 요청을 보내는 이벤트 리스너
