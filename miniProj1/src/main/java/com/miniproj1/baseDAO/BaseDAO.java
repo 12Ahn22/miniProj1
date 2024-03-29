@@ -18,6 +18,7 @@ public class BaseDAO {
 			DataSource ds = (DataSource) ic.lookup("java:comp/env/jdbc/mini_proj1_db");
 			//3. getConnection()
 			conn = ds.getConnection();
+			conn.setAutoCommit(false); // auto Commit false 
 			System.out.println("MariaDB 연결 성공");
 		} catch (Exception e) {
 			e.printStackTrace();
