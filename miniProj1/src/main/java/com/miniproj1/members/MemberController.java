@@ -52,10 +52,11 @@ public class MemberController {
 		int updated = memberService.delete(member);
 		if (updated == 1) { // 성공
 			map.put("status", 204);
-			// 회원 탈퇴 시, 세션 정보도 삭제
-			session.removeAttribute("loginMember");
-			session.invalidate();
-
+			// 관리자가 아니라면 세션 정보를 삭제
+			if(!loginMember.getId().equals("ADMIN")) {
+				session.removeAttribute("loginMember");
+				session.invalidate();
+			}
 		} else {
 			map.put("status", 404);
 			map.put("statusMessage", "회원 정보 삭제 실패하였습니다");
