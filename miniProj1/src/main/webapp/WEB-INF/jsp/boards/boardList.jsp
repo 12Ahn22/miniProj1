@@ -15,7 +15,7 @@
 		<main>
 			<h1>회원 리스트</h1>
 			<c:if test="${isLogin}">
-				<a href="board?action=insertForm">새 글 작성하기</a>
+				<a class="btn btn-primary mb-2" href="board?action=insertForm">새 글 작성하기</a>
 			</c:if>
 			<form id="searchForm" method="get" action="board?action=list">
 				<input type="text" name="searchKey" id="searchKey" placeholder="Search...">

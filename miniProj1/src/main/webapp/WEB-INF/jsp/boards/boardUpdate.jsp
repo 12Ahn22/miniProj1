@@ -22,8 +22,8 @@
 				<input type="text" id="title" name="title" value="${board.title}"><br>
 				<label for="content">내용:</label><br>
 				<textarea id="content" name="content" rows="4" cols="50">${board.content}</textarea><br><br>
-				<input type="submit" value="수정">
-				<a href="board?action=view&bno=${board.bno}">취소</a>
+				<input class="btn btn-primary" type="submit" value="수정">
+				<a class="btn btn-secondary" href="board?action=view&bno=${board.bno}">취소</a>
 		</form>
 	</div>
 	</main>

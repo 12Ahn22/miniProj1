@@ -26,7 +26,7 @@
 						</c:forEach>
 					</div>
 					<div>
-						<a href="member?action=updateForm&id=${member.id}">수정</a> <button id="deleteBtn">삭제</button>
+						<a class="btn btn-primary" href="member?action=updateForm&id=${member.id}">수정</a> <button class="btn btn-secondary" id="deleteBtn">삭제</button>
 					</div>
 				</main>
 			</div>
