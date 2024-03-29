@@ -26,137 +26,108 @@ public class MemberDAO extends BaseDAO{
 	private static String insertSQL = "insert into tb_members (id, name, password, address, phone, gender) values(?,?,?,?,?,?)";
 	private static String authenticateSQL = "select id from tb_members where id=? and password = ?";
 
-	public List<MemberVO> list() {
+	public List<MemberVO> list() throws SQLException {
 		ResultSet rs = null;
 		List<MemberVO> list = new ArrayList<>();
+		listPs = conn.prepareStatement(listSQL);
+		rs = listPs.executeQuery();
 		
-		try {
-			listPs = conn.prepareStatement(listSQL);
-			rs = listPs.executeQuery();
-			
-			while(rs.next()) {
-				list.add(new MemberVO(
-							rs.getString("id"),
-							rs.getString("name"),
-							rs.getString("address"),
-							rs.getString("phone"),
-							rs.getString("gender")
-						));
-			}
-			rs.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return list;
-	}
-
-	public MemberVO view(MemberVO member) {
-		ResultSet rs = null;
-		MemberVO viewMember = null;
-		try {
-			viewPs = conn.prepareStatement(viewSQL);
-			viewPs.setString(1, member.getId());
-			rs = viewPs.executeQuery();
-			
-			if(rs.next()) {
-				viewMember = new MemberVO(
+		while(rs.next()) {
+			list.add(new MemberVO(
 						rs.getString("id"),
 						rs.getString("name"),
 						rs.getString("address"),
 						rs.getString("phone"),
 						rs.getString("gender")
-					);
-			}
-			rs.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
+					));
 		}
+		rs.close();
+		listPs.close();
+		return list;
+	}
+
+	public MemberVO view(MemberVO member) throws SQLException {
+		ResultSet rs = null;
+		MemberVO viewMember = null;
+		viewPs = conn.prepareStatement(viewSQL);
+		viewPs.setString(1, member.getId());
+		rs = viewPs.executeQuery();
 		
+		if(rs.next()) {
+			viewMember = new MemberVO(
+					rs.getString("id"),
+					rs.getString("name"),
+					rs.getString("address"),
+					rs.getString("phone"),
+					rs.getString("gender")
+				);
+		}
+		rs.close();
+		viewPs.close();
 		return viewMember;
 	}
 	
-	public Map<Integer,String> getMemberHobbies(MemberVO member) {
+	public Map<Integer,String> getMemberHobbies(MemberVO member) throws SQLException {
 		ResultSet rs = null;
 		Map<Integer,String> map = new HashMap<>();
 		
-		try {
-			memberHobbiesPs = conn.prepareStatement(memberHobbiesSQL);
-			memberHobbiesPs.setString(1, member.getId());
-			rs = memberHobbiesPs.executeQuery();
-			while(rs.next()) {
-				map.put(rs.getInt("id"), rs.getString("hobby"));
-			}
-			rs.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
+		memberHobbiesPs = conn.prepareStatement(memberHobbiesSQL);
+		memberHobbiesPs.setString(1, member.getId());
+		rs = memberHobbiesPs.executeQuery();
+		while(rs.next()) {
+			map.put(rs.getInt("id"), rs.getString("hobby"));
 		}
+		rs.close();
+		memberHobbiesPs.close();
 		return map;
 	}
 
-	public int delete(MemberVO member) {
+	public int delete(MemberVO member) throws SQLException {
 		int updated = 0;
-		
-		try {
-			deletePs = conn.prepareStatement(deleteSQL);
-			deletePs.setString(1, member.getId());
-			updated = deletePs.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		deletePs = conn.prepareStatement(deleteSQL);
+		deletePs.setString(1, member.getId());
+		updated = deletePs.executeUpdate();
+		deletePs.close();
 		return updated;
 	}
 
-	public int update(MemberVO member) {
+	public int update(MemberVO member) throws SQLException {
 		int updated = 0;
-		
-		try {
-			// update tb_members set name = ?, password = ?, address = ?, phone = ? where id = ?
-			updatePs = conn.prepareStatement(updateSQL);
-			updatePs.setString(1, member.getName());
-			updatePs.setString(2, member.getPassword());
-			updatePs.setString(3, member.getAddress());
-			updatePs.setString(4, member.getPhone());
-			updatePs.setString(5, member.getId());
-			updated = updatePs.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		updatePs = conn.prepareStatement(updateSQL);
+		updatePs.setString(1, member.getName());
+		updatePs.setString(2, member.getPassword());
+		updatePs.setString(3, member.getAddress());
+		updatePs.setString(4, member.getPhone());
+		updatePs.setString(5, member.getId());
+		updated = updatePs.executeUpdate();
+		updatePs.close();
 		return updated;
 	}
 
-	public int insert(MemberVO member) {
+	public int insert(MemberVO member) throws SQLException {
 		int updated = 0;
-		
-		try {
-			// (id, name, password, address, phone, gender)
-			insertPs = conn.prepareStatement(insertSQL);
-			insertPs.setString(1, member.getId());
-			insertPs.setString(2, member.getName());
-			insertPs.setString(3, member.getPassword());
-			insertPs.setString(4, member.getAddress());
-			insertPs.setString(5, member.getPhone());
-			insertPs.setString(6, member.getDBGender());
-			updated = insertPs.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		insertPs = conn.prepareStatement(insertSQL);
+		insertPs.setString(1, member.getId());
+		insertPs.setString(2, member.getName());
+		insertPs.setString(3, member.getPassword());
+		insertPs.setString(4, member.getAddress());
+		insertPs.setString(5, member.getPhone());
+		insertPs.setString(6, member.getDBGender());
+		updated = insertPs.executeUpdate();
+		insertPs.close();
 		return updated;
 	}
 
-	public boolean authenticateMember(MemberVO member) {
+	public boolean authenticateMember(MemberVO member) throws SQLException {
 		ResultSet rs = null;
-		
-		try {
-			authenticatePs = conn.prepareStatement(authenticateSQL);
-			authenticatePs.setString(1, member.getId());
-			authenticatePs.setString(2, member.getPassword());
-			rs = authenticatePs.executeQuery();
-			if(rs.next()) {
-				return true;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		authenticatePs = conn.prepareStatement(authenticateSQL);
+		authenticatePs.setString(1, member.getId());
+		authenticatePs.setString(2, member.getPassword());
+		rs = authenticatePs.executeQuery();
+		if(rs.next()) {
+			return true;
 		}
+		authenticatePs.close();
 		return false;
 	}
 }
