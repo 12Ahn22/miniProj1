@@ -42,6 +42,7 @@ public class BoardDAO extends BaseDAO {
 					));
 		}
 		rs.close();
+		listPs.close();
 		return list;
 	}
 
@@ -62,6 +63,7 @@ public class BoardDAO extends BaseDAO {
 					);
 		}
 		rs.close();
+		viewPs.close();
 		return board;
 	}
 
@@ -70,6 +72,7 @@ public class BoardDAO extends BaseDAO {
 		increaseViewCountPs = conn.prepareStatement(increaseViewCountSQL);
 		increaseViewCountPs.setInt(1, bno);
 		updated = increaseViewCountPs.executeUpdate();
+		increaseViewCountPs.close();
 		return updated;
 	}
 
@@ -78,6 +81,7 @@ public class BoardDAO extends BaseDAO {
 		deletePs = conn.prepareStatement(deleteSQL);
 		deletePs.setInt(1, bno);
 		updated = deletePs.executeUpdate();
+		deletePs.close();
 		return updated;
 	}
 
@@ -88,6 +92,7 @@ public class BoardDAO extends BaseDAO {
 		updatePs.setString(2, boardVO.getContent());
 		updatePs.setInt(3, boardVO.getBno());
 		updated = updatePs.executeUpdate();
+		updatePs.close();
 		return updated;
 	}
 
@@ -98,6 +103,7 @@ public class BoardDAO extends BaseDAO {
 		insertPs.setString(2, boardVO.getContent());
 		insertPs.setString(3, boardVO.getAuthor());
 		updated = insertPs.executeUpdate();
+		insertPs.close();
 		return updated;
 	}
 
