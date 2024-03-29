@@ -12,7 +12,7 @@ import com.miniproj1.hobbies.HobbyVO;
 public class MemberController {
 	MemberService memberService = new MemberService();
 
-	public String list(HttpServletRequest request) {
+	public String list(HttpServletRequest request) throws Exception {
 		// 서비스를 호출한다.
 		List<MemberVO> list = memberService.list();
 
@@ -52,10 +52,11 @@ public class MemberController {
 		int updated = memberService.delete(member);
 		if (updated == 1) { // 성공
 			map.put("status", 204);
-			// 회원 탈퇴 시, 세션 정보도 삭제
-			session.removeAttribute("loginMember");
-			session.invalidate();
-
+			// 관리자가 아니라면 세션 정보를 삭제
+			if(!loginMember.getId().equals("ADMIN")) {
+				session.removeAttribute("loginMember");
+				session.invalidate();
+			}
 		} else {
 			map.put("status", 404);
 			map.put("statusMessage", "회원 정보 삭제 실패하였습니다");
@@ -89,11 +90,6 @@ public class MemberController {
 		int updated = memberService.update(member);
 		if (updated == 1) { // 성공
 			map.put("status", 204);
-
-			// 세션 데이터를 업데이트 된 내용으로 변경
-			session.setAttribute("loginMember", member);
-			session.setMaxInactiveInterval(30 * 60 * 1000); // 30분
-
 		} else {
 			map.put("status", 404);
 			map.put("statusMessage", "회원 정보 수정 실패하였습니다");
@@ -116,7 +112,6 @@ public class MemberController {
 
 	public Map<String, Object> insert(HttpServletRequest request, MemberVO member) {
 		Map<String, Object> map = new HashMap<>();
-
 		int updated = memberService.insert(member);
 		if (updated == 1) { // 성공
 			map.put("status", 204);
@@ -133,7 +128,14 @@ public class MemberController {
 		// 성공
 		if (memberService.authenticateMember(member)) {
 			HttpSession session = request.getSession();
+			
 			MemberVO viewMember = memberService.view(member);
+			if(viewMember == null) {
+				map.put("status", 500);
+				map.put("statusMessage", "로그인에 실패했습니다.");
+				return map;
+			}
+			
 			session.setAttribute("loginMember", viewMember);
 			session.setMaxInactiveInterval(30 * 60 * 1000); // 30분
 			map.put("status", 204);

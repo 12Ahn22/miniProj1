@@ -13,9 +13,8 @@ import com.miniproj1.members.MemberVO;
 public class BoardController {
 	BoardService boardService = new BoardService();
 
-	public String list(HttpServletRequest request, BoardVO boardVO ) {
+	public String list(HttpServletRequest request, BoardVO boardVO ) throws Exception {
 		List<BoardVO> list = boardService.list(boardVO);
-		
 		HttpSession session = request.getSession();
 		boolean isLogin = (session.getAttribute("loginMember") != null)? true : false;
 		
