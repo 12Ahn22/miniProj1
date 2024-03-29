@@ -45,10 +45,10 @@ public class MemberService {
 		} catch (Exception e) {
 			try {
 				BaseDAO.conn.rollback();
-				return 0;
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
+			return 0;
 		}
 		return 1;
 	}
@@ -72,10 +72,10 @@ public class MemberService {
 			e.printStackTrace();
 			try {
 				BaseDAO.conn.rollback();
-				return 0;
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
+			return 0;
 		}
 		return 1;
 	}
@@ -125,10 +125,10 @@ public class MemberService {
 				// SQL 에러가 나면, 여기서 처리
 				e.printStackTrace();
 				BaseDAO.conn.rollback();
-				return 0;
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
+			return 0;
 		}
 		return 1;
 	}
