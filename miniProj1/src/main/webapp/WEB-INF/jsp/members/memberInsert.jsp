@@ -19,6 +19,8 @@
 						<div>
 							<label for="id">아이디:</label>
 							<input type="text" id="id" name="id" required>
+							<input type="button" id="duplicateId" value="중복확인">
+							<span id="duplicateMsg"></span>
 						</div>
 						<div>
 							<label for="name">이름:</label>
@@ -26,10 +28,10 @@
 						</div>
 						<div>
 							<label for="password">비밀번호:</label>
-							<input type="password" id="password" name="password" required>
+							<input type="password" id="password" name="password" required autocomplete="off">
 							<label for="password2">비밀번호확인:</label>
 							<!-- 서버로 보내지 않을 내용은 name을 써주지않는다. -->
-							<input type="password" id="password2" required>
+							<input type="password" id="password2" required autocomplete="off">
 						</div>
 						<div>
 							<label for="phone">전화번호:</label>
@@ -60,10 +62,23 @@
 			</div>
 			<script type="text/javascript" src="<c:url value='/js/common.js'/>"></script>
 			<script>
+				let validUserId = false;
+
+				// 아이디 수정 시, 중복 체크를 다시 하도록 이벤트 설정
+				const id = document.getElementById("id");
+				id.addEventListener("keyup",()=>{
+					validUserId = false;
+				})
+
 				// 업데이트 요청을 보내는 이벤트 리스너
 				const rForm = document.getElementById("rForm");
 				rForm.addEventListener("submit", (e) => {
 				e.preventDefault();
+
+					if(!validUserId){
+						alert("계정 중복 검사를 진행해주세요.");
+						return;
+					}
 
 					// 유효성 검사
 					if(!validateSamePassword(password, password2 ,()=>{password.focus()})) return;
@@ -83,6 +98,40 @@
 								location = "member?action=list";
 							} else {
 								alert(data.statusMessage);
+							}
+						});
+				});
+
+				// 중복 확인을 위한 코드
+				const duplicateId = document.getElementById("duplicateId");
+				duplicateId.addEventListener("click",()=>{
+					if(!id.value){
+						alert("아이디를 입력해주세요.");
+						id.focus();
+						return;
+					}
+
+					const duplicateMsg = document.getElementById("duplicateMsg");
+					const param = {
+						id: id.value,
+						action:"checkDuplicateId"
+					};
+					fetch("member", {
+						method: "POST",
+						body: JSON.stringify(param),
+						headers: { "Content-type": "application/json; charset=utf-8" }
+					}).then((res) => res.json())
+						.then((data) => {
+							if (data.status === 204) {
+								alert("사용 가능한 계정입니다.");
+								duplicateMsg.textContent = "사용 가능한 계정입니다.";
+								duplicateMsg.className = "text-success";
+								validUserId = true;
+							} else {
+								alert(data.statusMessage);
+								duplicateMsg.textContent = "계정이 중복되었습니다.";
+								duplicateMsg.className = "text-danger";
+								validUserId = false;
 							}
 						});
 				});
