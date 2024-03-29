@@ -8,9 +8,6 @@
   <title>RATTY | 당신의 작은 반려동물</title>
 </head>
 <body>
-	<!-- 임시로 로그인 여부 처리 -->
-	<jsp:include page="WEB-INF/jsp/layout/layoutHeader.jsp">
-		<jsp:param name="isLogin" value="false" />
-	</jsp:include>
+	<jsp:include page="WEB-INF/jsp/layout/layoutHeader.jsp"/>
 </body>
 </html>
