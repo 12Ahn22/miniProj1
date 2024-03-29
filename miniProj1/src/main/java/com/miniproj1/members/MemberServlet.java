@@ -48,8 +48,6 @@ public class MemberServlet extends HttpServlet {
 		MemberVO memberVO = null;
 
 		if (contentType == null || contentType.startsWith("application/x-www-form-urlencoded")) { // contentType이 null인
-																									// 경우 (list, view)와
-																									// 같이 페이지 이동 요청인 경우
 			// 파라미터를 MemberVO와 매핑
 			// request.getParameterMap()는 Map<String,String[]>를 반환하기 때문에
 			// 이것을 Map<String,Object>으로 변환해줘야한다.

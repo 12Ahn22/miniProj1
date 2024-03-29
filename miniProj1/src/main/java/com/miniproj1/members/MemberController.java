@@ -89,11 +89,6 @@ public class MemberController {
 		int updated = memberService.update(member);
 		if (updated == 1) { // 성공
 			map.put("status", 204);
-
-			// 세션 데이터를 업데이트 된 내용으로 변경
-			session.setAttribute("loginMember", member);
-			session.setMaxInactiveInterval(30 * 60 * 1000); // 30분
-
 		} else {
 			map.put("status", 404);
 			map.put("statusMessage", "회원 정보 수정 실패하였습니다");
