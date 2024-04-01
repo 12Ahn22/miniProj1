@@ -15,7 +15,7 @@ public class BoardDAO extends BaseDAO {
 	private static PreparedStatement updatePs = null;
 	private static PreparedStatement insertPs = null;
 	
-	private static String listSQL = "select tb.bno, tb.title, tm.name author , tb.content, tb.created_at, tb.view_count from tb_boards tb join tb_members tm on tb.author = tm.id where title like ?";
+	private static String listSQL = "select tb.bno, tb.title, tm.name author, tb.content, tb.created_at, tb.view_count from tb_boards tb left join tb_members tm on tb.author = tm.id where title like ?";
 	private static String viewSQL = "select bno, title, author, content, created_at,view_count from tb_boards where bno = ?";
 	private static String increaseViewCountSQL = "update tb_boards set view_count = view_count + 1 where bno = ?";
 	private static String deleteSQL = "delete from tb_boards where bno = ?";

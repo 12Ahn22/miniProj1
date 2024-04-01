@@ -13,7 +13,7 @@
 	<div class="container">
 		<jsp:include page="../layout/layoutHeader.jsp"/>
 		<main>
-			<h1>회원 리스트</h1>
+			<h1>게시물 리스트</h1>
 			<c:if test="${isLogin}">
 				<a class="btn btn-primary mb-2" href="board?action=insertForm">새 글 작성하기</a>
 			</c:if>
