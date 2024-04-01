@@ -13,6 +13,9 @@
 <body>
 	<div class="container">
 			<jsp:include page="WEB-INF/jsp/layout/layoutHeader.jsp"/>
+			<div style="display: flex; align-items: center; justify-content: center;">
+				<img src="https://i.pinimg.com/736x/68/ec/dd/68ecddb392067a4d969690ca127b3f6d.jpg" alt="rat" width="350"/>
+			</div>
 	</div>
 </body>
 </html>
